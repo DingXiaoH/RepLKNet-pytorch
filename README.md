@@ -1,7 +1,5 @@
 # RepLKNet-pytorch (CVPR 2022)
 
-# RepLKNet (CVPR 2022)
-
 This is the official PyTorch implementation of **RepLKNet**, from the following CVPR-2022 paper:
 
 Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs.
@@ -34,8 +32,8 @@ More re-implementations and efficient conv kernel optimizations are welcomed.
 ### ImageNet-1K Models
 
 | name | resolution |acc | #params | FLOPs | download |
-|:---:|:---:|:---:|:---:| :---:|:---:|
-
+|:RepLKNet-31B:|:224x224:|:83.5:|:---:| :---:|:Google Drive()|:|
+|:RepLKNet-31B:|:384x384:|:84.8:|:---:| :---:|:---:|
 
 ### ImageNet-22K Models
 
