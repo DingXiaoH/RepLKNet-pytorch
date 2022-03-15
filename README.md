@@ -6,8 +6,8 @@ The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
 
 Model code released.
 
-Uploading model weights.
+Uploading model weights. Almost completed.
 
-coding. star me if you are interested :)
+Working on the training code.
 
 More re-implementations and efficient conv kernel optimizations are welcomed.
