@@ -33,10 +33,9 @@ More re-implementations and efficient conv kernel optimizations are welcomed.
 
 | name | resolution |acc | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:|:---:|
-|:RepLKNet-31B:|:224x224:|:83.5:|:---:| :---:|:[Google Drive](https://drive.google.com/file/d/1azQUiCxK9feYVkkrPqwVPBtNsTzDrX7S/view?usp=sharing) | Baidu Cloud:|
-|:RepLKNet-31B:|:384x384:|:84.8:|:---:| :---:|:---:|
+|RepLKNet-31B|224x224|83.5|    |     |[Google Drive](https://drive.google.com/file/d/1azQUiCxK9feYVkkrPqwVPBtNsTzDrX7S/view?usp=sharing) | Baidu Cloud|
+|RepLKNet-31B|384x384|84.8|    |     |[Google Drive](https://drive.google.com/file/d/1vo-P3XB6mRLUeDzmgv90dOu73uCeLfZN/view?usp=sharing) | Baidu Cloud|
 
-| name | resolution |acc | #params | FLOPs | model |
 
 
 ### ImageNet-22K Models
