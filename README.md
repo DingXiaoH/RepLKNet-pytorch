@@ -33,7 +33,7 @@ More re-implementations and efficient conv kernel optimizations are welcomed.
 
 | name | resolution |acc | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:|:---:|
-|RepLKNet-31B|224x224|83.5|    |     |[Google Drive](https://drive.google.com/file/d/1azQUiCxK9feYVkkrPqwVPBtNsTzDrX7S/view?usp=sharing), [Baidu]((https://pan.baidu.com/s/1NBD6UHjoLqTe_CbBIZ6MLA?pwd=lknt))|
+|RepLKNet-31B|224x224|83.5|    |     |[Google Drive](https://drive.google.com/file/d/1azQUiCxK9feYVkkrPqwVPBtNsTzDrX7S/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1gspbbfqooMtegt_DO1TUeA?pwd=lknt)|
 |RepLKNet-31B|384x384|84.8|    |     |[Google Drive](https://drive.google.com/file/d/1vo-P3XB6mRLUeDzmgv90dOu73uCeLfZN/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1WhLaCKKv4NuKc3qMYECOIQ?pwd=lknt)|
 
 
