@@ -18,8 +18,6 @@ The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
 
 More re-implementations and efficient conv kernel optimizations are welcomed.
 
-Our engineering 
-
 ## Catalog
 - [x] Model code
 - [x] PyTorch pretrained models
