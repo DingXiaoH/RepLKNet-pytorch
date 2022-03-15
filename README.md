@@ -1,7 +1,7 @@
 # RepLKNet-pytorch (CVPR 2022)
 
-coming very soon.
+Accepted by CVPR 2022!
 
-paper uploaded in this repo. still being processed by arXiv.
+The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
 
 coding. star me if you are interested :)
