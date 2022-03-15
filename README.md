@@ -44,8 +44,7 @@ More re-implementations and efficient conv kernel optimizations are welcomed.
 |:---:|:---:|:---:|:---:| :---:|:---:|:---:|
 |RepLKNet-31B|224x224|    |    |    |[Google Drive](https://drive.google.com/file/d/1PYJiMszZYNrkZOeYwjccvxX8UHMALB7z/view?usp=sharing)|[Google Drive](https://drive.google.com/file/d/1DslZ2voXZQR1QoFY9KnbsHAeF84hzS0s/view?usp=sharing)|
 |RepLKNet-31B|384x384|    |    |    | - |[Google Drive](https://drive.google.com/file/d/1Sc46BWdXXm2fVP-K_hKKU_W8vAB-0duX/view?usp=sharing)|
-
-
+|RepLKNet-31L|384x384|    |    |    |[Google Drive](https://drive.google.com/file/d/16jcPsPwo5rko7ojWS9k_W-svHX-iFknY/view?usp=sharing)|[Google Drive](https://drive.google.com/file/d/1JYXoNHuRvC33QV1pmpzMTKEni1hpWfBl/view?usp=sharing)|
 
 
 ### MegData-73M Models
