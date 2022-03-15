@@ -41,6 +41,7 @@ More re-implementations and efficient conv kernel optimizations are welcomed.
 ### ImageNet-22K Models
 
 | name | resolution |acc | #params | FLOPs | 22K model | 1K model |
+|:---:|:---:|:---:|:---:| :---:|:---:|:---:|
 |RepLKNet-31B|224x224|    |    |    |[Google Drive](https://drive.google.com/file/d/1PYJiMszZYNrkZOeYwjccvxX8UHMALB7z/view?usp=sharing)|[Google Drive](https://drive.google.com/file/d/1DslZ2voXZQR1QoFY9KnbsHAeF84hzS0s/view?usp=sharing)|
 |RepLKNet-31B|384x384|    |    |    | - |[Google Drive](https://drive.google.com/file/d/1Sc46BWdXXm2fVP-K_hKKU_W8vAB-0duX/view?usp=sharing)|
 
@@ -63,16 +64,5 @@ More re-implementations and efficient conv kernel optimizations are welcomed.
 This project is released under the MIT license. Please see the [LICENSE](LICENSE) file for more information.
 
 
-
-
-Accepted by CVPR 2022!
-
-The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
-
-Model code released.
-
-Uploading model weights. Almost completed.
-
-Working on the training code.
 
 
