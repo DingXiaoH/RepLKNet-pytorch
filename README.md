@@ -45,7 +45,7 @@ Pull requests (e.g., a wrapped Conv2d class with better or other implementations
 
 ### ImageNet-1K Models
 
-| name | resolution |ImageNet-1K acc | #params | FLOPs | download |
+| name | resolution |ImageNet-1K acc | #params | FLOPs | ImageNet-1K pretrained model |
 |:---:|:---:|:---:|:---:| :---:|:---:|
 |RepLKNet-31B|224x224|83.5| 79M   |  15.3G   |[Google Drive](https://drive.google.com/file/d/1azQUiCxK9feYVkkrPqwVPBtNsTzDrX7S/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1gspbbfqooMtegt_DO1TUeA?pwd=lknt)|
 |RepLKNet-31B|384x384|84.8| 79M   |  45.1G   |[Google Drive](https://drive.google.com/file/d/1vo-P3XB6mRLUeDzmgv90dOu73uCeLfZN/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1WhLaCKKv4NuKc3qMYECOIQ?pwd=lknt)|
@@ -54,7 +54,7 @@ Pull requests (e.g., a wrapped Conv2d class with better or other implementations
 
 ### ImageNet-22K Models
 
-| name | resolution |ImageNet-1K acc | #params | FLOPs | 22K model | 1K model |
+| name | resolution |ImageNet-1K acc | #params | FLOPs | 22K pretrained model | 1K finetuned model |
 |:---:|:---:|:---:|:---:| :---:|:---:|:---:|
 |RepLKNet-31B|224x224|  85.2  |  79M  |  15.3G  |[Google Drive](https://drive.google.com/file/d/1PYJiMszZYNrkZOeYwjccvxX8UHMALB7z/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1YiQSn7VJDiNWX1IWg19O6g?pwd=lknt)|[Google Drive](https://drive.google.com/file/d/1DslZ2voXZQR1QoFY9KnbsHAeF84hzS0s/view?usp=sharing), [Baidu](https://pan.baidu.com/s/169wDunCdop-jQM8K-AX27g?pwd=lknt)|
 |RepLKNet-31B|384x384|  86.0  |  79M  | 45.1G   | - |[Google Drive](https://drive.google.com/file/d/1Sc46BWdXXm2fVP-K_hKKU_W8vAB-0duX/view?usp=sharing), [Baidu](https://pan.baidu.com/s/11-F3JIKEzSOU7KUhebUWEQ?pwd=lknt)|
@@ -63,7 +63,7 @@ Pull requests (e.g., a wrapped Conv2d class with better or other implementations
 
 ### MegData-73M Models
 (uploading)
-| name | resolution |ImageNet-1K acc | #params | FLOPs | MegData-73M model | 1K model |
+| name | resolution |ImageNet-1K acc | #params | FLOPs | MegData-73M pretrained model | 1K finetuned model |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|
 |RepLKNet-XL| 320x320 | 87.8 | 335M | 128.7G | 
 
