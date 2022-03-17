@@ -6,6 +6,8 @@ Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs.
 
 The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
 
+Update: training code released. testing
+
 ## Other implementations
 
 | framework | link |
@@ -74,6 +76,8 @@ Pull requests (e.g., a wrapped Conv2d class with better or other implementations
 
 ## Training
 
+## Acknowledgement
+The released PyTorch training script is based on the code of [ConvNeXt](https://github.com/facebookresearch/ConvNeXt), which was built using the [timm](https://github.com/rwightman/pytorch-image-models) library, [DeiT](https://github.com/facebookresearch/deit) and [BEiT](https://github.com/microsoft/unilm/tree/master/beit) repositories. 
 
 ## License
 This project is released under the MIT license. Please see the [LICENSE](LICENSE) file for more information.
