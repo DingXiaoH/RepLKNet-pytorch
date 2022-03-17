@@ -166,6 +166,8 @@ def get_args_parser():
                         help='start epoch')
     parser.add_argument('--eval', type=str2bool, default=False,
                         help='Perform evaluation only')
+    parser.add_argument('--with_small_kernel_merged', type=str2bool, default=False,
+                        help='Merge small kernels to check the equivalency')
     parser.add_argument('--dist_eval', type=str2bool, default=True,
                         help='Enabling distributed evaluation')
     parser.add_argument('--disable_eval', type=str2bool, default=False,
@@ -379,6 +381,8 @@ def main(args):
 
     if args.eval:
         print(f"Eval only mode")
+        if args.with_small_kernel_merged:
+            model.structural_reparam()
         test_stats = evaluate(data_loader_val, model, device, use_amp=args.use_amp)
         print(f"Accuracy of the network on {len(dataset_val)} test images: {test_stats['acc1']:.5f}%")
         return
