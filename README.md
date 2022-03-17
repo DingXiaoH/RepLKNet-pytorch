@@ -86,7 +86,7 @@ pip install submitit
 ```
 If you have limited GPU memory (e.g., 2080Ti), use ```--use_checkpoint True``` to save GPU memory.
 
-# Pretrain RepLKNet-31B on ImageNet-1K
+### Pretrain RepLKNet-31B on ImageNet-1K
 Single machine:
 ```
 python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 4 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --use_checkpoint True --output_dir your_training_dir
@@ -96,20 +96,20 @@ Four machines:
 python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 4 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --use_checkpoint True --job_dir your_training_dir
 ```
 
-# Finetune the ImageNet-1K-pretrained (224x224) RepLKNet-31B with 384x384
+### Finetune the ImageNet-1K-pretrained (224x224) RepLKNet-31B with 384x384
 Single machine:
 
-# Pretrain RepLKNet-31B on ImageNet-22K
+### Pretrain RepLKNet-31B on ImageNet-22K
 
-# Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (224x224)
+### Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (224x224)
 
-# Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (384x384)
+### Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (384x384)
 
-# Pretrain RepLKNet-31L on ImageNet-22K
+### Pretrain RepLKNet-31L on ImageNet-22K
 
-# Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (224x224)
+### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (224x224)
 
-# Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (384x384)
+### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (384x384)
 
 
 ## Acknowledgement
