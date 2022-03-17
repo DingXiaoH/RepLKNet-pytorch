@@ -36,7 +36,7 @@ def build_dataset(is_train, args):
         root = os.path.join(args.data_path, 'train' if is_train else 'val')
         dataset = datasets.ImageFolder(root, transform=transform)
         # nori_root = os.path.join('/home/dingxiaohan/ndp/', 'imagenet.train.nori.list' if is_train else 'imagenet.val.nori.list')
-        # from nori_dataset import ImageNetNoriDataset
+        # from nori_dataset import ImageNetNoriDataset      # Data source on our machines. You will never need it.
         # dataset = ImageNetNoriDataset(nori_root, transform=transform)
         nb_classes = 1000
 
