@@ -16,7 +16,19 @@ The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
 |PaddlePaddle  | re-implementations are welcomed |
 | ... | |
 
-More re-implementations and efficient conv kernel optimizations are welcomed.
+More re-implementations are welcomed.
+
+## Efficient implementation of large-kernel convolution
+
+Our implementation mentioned in the paper has been integrated into MegEngine. The engine will automatically use it.
+
+If you would like to use it in other frameworks like PyTorch and Tensorflow, you may refer to our CUDA source code:
+https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension,
+https://github.com/MegEngine/MegEngine/tree/8a2e92bd6c5ac02807b27d174dce090ee391000b/dnn/src/cuda/conv_bias/chanwise
+
+You may need to compile and use cutlass and some tools of your framework (e.g., torch.utils.cpp_extension) to load them. Would be appreciated if you could share with us your experience.
+
+Pull requests (e.g., a wrapped LargeKernelConv2d to replace torch.nn.Conv2d) are welcomed.
 
 ## Catalog
 - [x] Model code
