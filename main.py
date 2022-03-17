@@ -12,19 +12,15 @@ import datetime
 import numpy as np
 import time
 import torch
-import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import json
-import os
 from pathlib import Path
 from timm.data.mixup import Mixup
 from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 from timm.utils import ModelEma
-from optim_factory import create_optimizer, LayerDecayValueAssigner, RepLKNetLayerDecayValueAssigner
-
+from optim_factory import create_optimizer, RepLKNetLayerDecayValueAssigner
 from datasets import build_dataset
 from engine import train_one_epoch, evaluate
-
 from utils import NativeScalerWithGradNormCount as NativeScaler
 import utils
 from replknet import *
