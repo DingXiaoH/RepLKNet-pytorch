@@ -23,12 +23,10 @@ def get_conv2d(in_channels, out_channels, kernel_size, stride, padding, dilation
     has_large_impl = 'LARGE_KERNEL_CONV_IMPL' in os.environ
     if has_large_impl and in_channels == out_channels and out_channels == groups and use_large_impl and stride == 1 and padding == kernel_size // 2 and dilation == 1:
         sys.path.append(os.environ['LARGE_KERNEL_CONV_IMPL'])
-        #   Please clone cutlass and our example: https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension
-        #   Compile by running https://github.com/MegEngine/cutlass/blob/master/examples/19_large_depthwise_conv2d_torch_extension/setup.py
-        #   Then set the environment variable:
+        #   Please follow the instructions https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/README.md
         #   export LARGE_KERNEL_CONV_IMPL=absolute_path_to_where_you_cloned_the_example (i.e., depthwise_conv2d_implicit_gemm.py)
         # TODO more efficient PyTorch implementations of large-kernel convolutions. Pull-requests are welcomed.
-        # TODO Or you may try MegEngine. We have integrated an efficient implementation into MegEngine and it will automatically use it.
+        # Or you may try MegEngine. We have integrated an efficient implementation into MegEngine and it will automatically use it.
         from depthwise_conv2d_implicit_gemm import DepthWiseConv2dImplicitGEMM
         return DepthWiseConv2dImplicitGEMM(in_channels, kernel_size, bias=bias)
     else:
