@@ -242,14 +242,14 @@ class RepLKNet(nn.Module):
         pass
 
 
-def create_RepLKNet31B(num_classes=1000, use_checkpoint=True, small_kernel_merged=False):
+def create_RepLKNet31B(drop_path_rate=0.3, num_classes=1000, use_checkpoint=True, small_kernel_merged=False):
     return RepLKNet(large_kernel_sizes=[31,29,27,13], layers=[2,2,18,2], channels=[128,256,512,1024],
-                    drop_path_rate=0.3, small_kernel=5, num_classes=num_classes, use_checkpoint=use_checkpoint,
+                    drop_path_rate=drop_path_rate, small_kernel=5, num_classes=num_classes, use_checkpoint=use_checkpoint,
                     small_kernel_merged=small_kernel_merged)
 
-def create_RepLKNet31L(num_classes=1000, use_checkpoint=True, small_kernel_merged=False):
+def create_RepLKNet31L(drop_path_rate=0.3, num_classes=1000, use_checkpoint=True, small_kernel_merged=False):
     return RepLKNet(large_kernel_sizes=[31,29,27,13], layers=[2,2,18,2], channels=[192,384,768,1536],
-                    drop_path_rate=0.3, small_kernel=5, num_classes=num_classes, use_checkpoint=use_checkpoint,
+                    drop_path_rate=drop_path_rate, small_kernel=5, num_classes=num_classes, use_checkpoint=use_checkpoint,
                     small_kernel_merged=small_kernel_merged)
 
 if __name__ == '__main__':

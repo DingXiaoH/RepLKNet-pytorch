@@ -1,0 +1,6 @@
+#*.checkpoint
+#*.log
+#*log/*
+.idea/
+*nori*
+
