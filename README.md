@@ -22,15 +22,15 @@ More re-implementations are welcomed.
 
 Our implementation mentioned in the paper has been integrated into MegEngine. The engine will automatically use it.
 
-We have released an example for **PyTorch**. Please check *setup.py* and *depthwise_conv2d_implicit_gemm.py* (**a replacement of torch.nn.Conv2d**) in https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension. 
+We have released an example for **PyTorch**. Please check *setup.py* and *depthwise_conv2d_implicit_gemm.py* (**a replacement of torch.nn.Conv2d**) in https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension.
 
-If you would like to use it in other frameworks like PyTorch and Tensorflow, you may refer to our CUDA source code:
+If you would like to use it in other frameworks like PyTorch and Tensorflow, you may refer to the example or the source code of MegEngine:
 https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension,
 https://github.com/MegEngine/MegEngine/tree/8a2e92bd6c5ac02807b27d174dce090ee391000b/dnn/src/cuda/conv_bias/chanwise
 
-You may need to compile and use cutlass and some tools of your framework (e.g., torch.utils.cpp_extension) to load them, just like the PyTorch example. Would be appreciated if you could share with us your experience.
+You may need to compile and use some tools (e.g., cutlass and torch.utils.cpp_extension) to load them, just like the PyTorch example. Would be appreciated if you could share with us your experience.
 
-Pull requests (e.g., a wrapped LargeKernelConv2d with better or other implementations) are welcomed.
+Pull requests (e.g., a wrapped Conv2d class with better or other implementations) are welcomed.
 
 ## Catalog
 - [x] Model code
