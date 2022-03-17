@@ -1,7 +1,18 @@
+# Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs (https://arxiv.org/abs/2203.06717)
+# Github source: https://github.com/DingXiaoH/RepLKNet-pytorch
+# Licensed under The MIT License [see LICENSE for details]
+# Based on ConvNeXt, timm, DINO and DeiT code bases
+# https://github.com/facebookresearch/ConvNeXt
+# https://github.com/rwightman/pytorch-image-models/tree/master/timm
+# https://github.com/facebookresearch/deit/
+# https://github.com/facebookresearch/dino
+# --------------------------------------------------------'
 import torch
 import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
 from timm.models.layers import DropPath
+import sys
+import os
 
 def get_conv2d(in_channels, out_channels, kernel_size, stride, padding, dilation, groups, bias):
     if type(kernel_size) is int:
@@ -9,11 +20,17 @@ def get_conv2d(in_channels, out_channels, kernel_size, stride, padding, dilation
     else:
         assert len(kernel_size) == 2 and kernel_size[0] == kernel_size[1]
         use_large_impl = kernel_size[0] > 5
-    if in_channels == out_channels and out_channels == groups and use_large_impl and stride == 1 and padding == kernel_size // 2 and dilation == 1:
+    has_large_impl = 'LARGE_KERNEL_CONV_IMPL' in os.environ
+    if has_large_impl and in_channels == out_channels and out_channels == groups and use_large_impl and stride == 1 and padding == kernel_size // 2 and dilation == 1:
+        sys.path.append(os.environ['LARGE_KERNEL_CONV_IMPL'])
+        #   Please clone cutlass and our example: https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension
+        #   Compile by running https://github.com/MegEngine/cutlass/blob/master/examples/19_large_depthwise_conv2d_torch_extension/setup.py
+        #   Then set the environment variable:
+        #   export LARGE_KERNEL_CONV_IMPL=absolute_path_to_where_you_cloned_the_example (i.e., depthwise_conv2d_implicit_gemm.py)
         # TODO more efficient PyTorch implementations of large-kernel convolutions. Pull-requests are welcomed.
         # TODO Or you may try MegEngine. We have integrated an efficient implementation into MegEngine and it will automatically use it.
-        return nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, stride=stride,
-                         padding=padding, dilation=dilation, groups=groups, bias=bias)
+        from depthwise_conv2d_implicit_gemm import DepthWiseConv2dImplicitGEMM
+        return DepthWiseConv2dImplicitGEMM(in_channels, kernel_size, bias=bias)
     else:
         return nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, stride=stride,
                          padding=padding, dilation=dilation, groups=groups, bias=bias)

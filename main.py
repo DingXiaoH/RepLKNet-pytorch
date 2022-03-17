@@ -1,11 +1,12 @@
-# Copyright (c) Meta Platforms, Inc. and affiliates.
-
-# All rights reserved.
-
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-
-
+# Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs (https://arxiv.org/abs/2203.06717)
+# Github source: https://github.com/DingXiaoH/RepLKNet-pytorch
+# Licensed under The MIT License [see LICENSE for details]
+# Based on ConvNeXt, timm, DINO and DeiT code bases
+# https://github.com/facebookresearch/ConvNeXt
+# https://github.com/rwightman/pytorch-image-models/tree/master/timm
+# https://github.com/facebookresearch/deit/
+# https://github.com/facebookresearch/dino
+# --------------------------------------------------------'
 import argparse
 import datetime
 import numpy as np
@@ -15,11 +16,8 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import json
 import os
-
 from pathlib import Path
-
 from timm.data.mixup import Mixup
-from timm.models import create_model
 from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 from timm.utils import ModelEma
 from optim_factory import create_optimizer, LayerDecayValueAssigner, RepLKNetLayerDecayValueAssigner
@@ -274,7 +272,7 @@ def main(args):
     #   ================================================== build model ================================ #
     if args.model == 'RepLKNet-31B':
         model = create_RepLKNet31B(drop_path_rate=args.drop_path, num_classes=args.nb_classes, use_checkpoint=args.use_checkpoint, small_kernel_merged=False)
-    elif args.model == 'RepLKNet-31L'
+    elif args.model == 'RepLKNet-31L':
         model = create_RepLKNet31L(drop_path_rate=args.drop_path, num_classes=args.nb_classes,
                                    use_checkpoint=args.use_checkpoint, small_kernel_merged=False)
     else:

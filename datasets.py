@@ -1,7 +1,13 @@
-# Copyright (c) Meta Platforms, Inc. and affiliates.
-# All rights reserved.
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
+# Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs (https://arxiv.org/abs/2203.06717)
+# Github source: https://github.com/DingXiaoH/RepLKNet-pytorch
+# Licensed under The MIT License [see LICENSE for details]
+# Based on ConvNeXt, timm, DINO and DeiT code bases
+# https://github.com/facebookresearch/ConvNeXt
+# https://github.com/rwightman/pytorch-image-models/tree/master/timm
+# https://github.com/facebookresearch/deit/
+# https://github.com/facebookresearch/dino
+# --------------------------------------------------------'
+
 from PIL import Image
 import os
 from torchvision import datasets, transforms
