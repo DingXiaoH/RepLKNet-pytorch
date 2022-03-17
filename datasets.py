@@ -34,12 +34,6 @@ def build_dataset(is_train, args):
         # dataset = ImageNetNoriDataset(nori_root, transform=transform)
         nb_classes = 1000
 
-    # elif args.data_set == '22K':
-    #     nori_file = '/data/Dataset/imagenet22k.nori.list'
-    #     from nori_dataset import ImageNetNoriDataset
-    #     dataset = ImageNetNoriDataset(nori_file, transform=transform)
-    #     nb_classes = 21841
-
     elif args.data_set == "image_folder":
         root = args.data_path if is_train else args.eval_data_path
         dataset = datasets.ImageFolder(root, transform=transform)
