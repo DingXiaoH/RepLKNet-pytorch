@@ -14,7 +14,7 @@ Update: training code released. testing
 |:---:|:---:|
 |MegEngine (official)|https://github.com/megvii-research/RepLKNet|
 |PyTorch (official)|https://github.com/DingXiaoH/RepLKNet-pytorch|
-|Tensorflow| re-implementations are welcomed |
+|Tensorflow|https://github.com/shkarupa-alex/tfreplknet|
 |PaddlePaddle  | re-implementations are welcomed |
 | ... | |
 
