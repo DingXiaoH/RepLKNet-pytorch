@@ -15,7 +15,6 @@ Update: working on my PhD thesis... will upload the models and update the traini
 |MegEngine (official)|https://github.com/megvii-research/RepLKNet|
 |PyTorch (official)|https://github.com/DingXiaoH/RepLKNet-pytorch|
 |Tensorflow|https://github.com/shkarupa-alex/tfreplknet|
-|PaddlePaddle  | re-implementations are welcomed |
 | ... | |
 
 More re-implementations are welcomed.
