@@ -6,7 +6,7 @@ Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs.
 
 The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
 
-Update: working on my PhD thesis... will upload the models and update the training commands in two days.
+Update: will upload the models and update the training commands in two days.
 
 ## Other implementations
 
