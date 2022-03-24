@@ -269,15 +269,17 @@ def main(args):
 
     #   ================================================== build model ================================ #
     if args.model == 'RepLKNet-31B':
-        model = create_RepLKNet31B(drop_path_rate=args.drop_path, num_classes=args.nb_classes, use_checkpoint=args.use_checkpoint, small_kernel_merged=False)
+        model = create_RepLKNet31B(drop_path_rate=args.drop_path, num_classes=args.nb_classes, use_checkpoint=args.use_checkpoint,
+                                   small_kernel_merged=False)
     elif args.model == 'RepLKNet-31L':
         model = create_RepLKNet31L(drop_path_rate=args.drop_path, num_classes=args.nb_classes,
+                                   use_checkpoint=args.use_checkpoint, small_kernel_merged=False)
+    elif args.model == 'RepLKNet-XL':
+        model = create_RepLKNetXL(drop_path_rate=args.drop_path, num_classes=args.nb_classes,
                                    use_checkpoint=args.use_checkpoint, small_kernel_merged=False)
     else:
         raise ValueError('unsupported model. add it here.')
     #   ================================================== build model ================================ #
-
-
 
     model_without_ddp = model
     n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -381,8 +383,8 @@ def main(args):
 
     if args.eval:
         print(f"Eval only mode")
-        if args.with_small_kernel_merged:
-            model.structural_reparam()
+        if args.with_small_kernel_merged and hasattr(model_without_ddp, 'structural_reparam'):
+            model_without_ddp.structural_reparam()
         test_stats = evaluate(data_loader_val, model, device, use_amp=args.use_amp)
         print(f"Accuracy of the network on {len(dataset_val)} test images: {test_stats['acc1']:.5f}%")
         return
