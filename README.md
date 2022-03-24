@@ -88,7 +88,7 @@ For RepLKNet-XL, please note that we used mean=\[0.5,0.5,0.5\] and std=\[0.5,0.5
 python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-XL --batch_size 32 --eval true --resume RepLKNet-XL_MegData73M_ImageNet1K.pth --imagenet_default_mean_and_std false --input_size 320
 ```
 
-To verify the equivalency of Structural Re-parameterization (i.e., the outputs before and after ``````), add ```--with_small_kernel_merged true```.
+To verify the equivalency of Structural Re-parameterization (i.e., the outputs before and after ```structural_reparam```), add ```--with_small_kernel_merged true```.
 
 
 ## Training
@@ -123,6 +123,23 @@ Single machine:
 ### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (224x224)
 
 ### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (384x384)
+
+## Semantic Segmentation
+
+We use MMSegmentation framework. Just clone MMSegmentation, and
+
+1. Put ```segmentation/configs/\*.py``` into ```mmsegmentation/configs/replknet/```.
+2. Put ```segmentation/replknet.py``` into '''mmsegmentation/mmseg/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
+3. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/\_\_init\_\_.py```. That is
+  '''
+  ...
+  from .replknet import RepLKNet
+  \_\_all\_\_ = \['ResNet', ..., 'RepLKNet'\]
+  '''
+5. Test our released weights (TODO)
+6. 
+
+## TODO
 
 
 ## Acknowledgement
