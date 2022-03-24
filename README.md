@@ -88,7 +88,7 @@ For RepLKNet-XL, please note that we used mean=\[0.5,0.5,0.5\] and std=\[0.5,0.5
 python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-XL --batch_size 32 --eval true --resume RepLKNet-XL_MegData73M_ImageNet1K.pth --imagenet_default_mean_and_std false --input_size 320
 ```
 
-To verify the equivalency of Structural Re-parameterization, add ```--small_kernel_merged```
+To verify the equivalency of Structural Re-parameterization (i.e., the outputs before and after ``````), add ```--with_small_kernel_merged true```.
 
 
 ## Training
