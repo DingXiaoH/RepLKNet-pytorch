@@ -75,6 +75,20 @@ Pull requests (e.g., better or other implementations or implementations on other
 
 
 ## Evaluation
+For RepLKNet-31B/L with 224x224 or 384x384, we use the "IMAGENET_DEFAULT_MEAN/STD" for preprocessing (see [here](https://github.com/rwightman/pytorch-image-models/blob/73ffade1f8203a611c9cdd6df437b436b780daca/timm/data/constants.py#L2)). For examples,
+```
+python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31B --batch_size 32 --eval True --resume RepLKNet-31B_ImageNet-1K_224.pth --input_size 224
+```
+or
+```
+python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31L --batch_size 32 --eval True --resume RepLKNet-31L_ImageNet-22K-to-1K_384.pth --input_size 384
+```
+For RepLKNet-XL, please note that we used mean=\[0.5,0.5,0.5\] and std=\[0.5,0.5,0.5\] for preprocessing on MegData73M dataset as well as finetuning on ImageNet-1K. This mean/std setting is also referred to as "IMAGENET_INCEPTION_MEAN/STD" in timm, see [here](https://github.com/rwightman/pytorch-image-models/blob/73ffade1f8203a611c9cdd6df437b436b780daca/timm/data/constants.py#L4). Add ```--imagenet_default_mean_and_std false``` to use this mean/std setting (see [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/datasets.py#L58)). As noted in the paper, we did not use small kernels for re-parameterization.
+```
+python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-XL --batch_size 32 --eval true --resume RepLKNet-XL_MegData73M_ImageNet1K.pth --imagenet_default_mean_and_std false --input_size 320
+```
+
+To verify the equivalency of Structural Re-parameterization, add ```--small_kernel_merged```
 
 
 ## Training
