@@ -25,7 +25,7 @@ def get_conv2d(in_channels, out_channels, kernel_size, stride, padding, dilation
         sys.path.append(os.environ['LARGE_KERNEL_CONV_IMPL'])
         #   Please follow the instructions https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/README.md
         #   export LARGE_KERNEL_CONV_IMPL=absolute_path_to_where_you_cloned_the_example (i.e., depthwise_conv2d_implicit_gemm.py)
-        # TODO more efficient PyTorch implementations of large-kernel convolutions. Pull-requests are welcomed.
+        # TODO more efficient PyTorch implementations of large-kernel convolutions. Pull requests are welcomed.
         # Or you may try MegEngine. We have integrated an efficient implementation into MegEngine and it will automatically use it.
         from depthwise_conv2d_implicit_gemm import DepthWiseConv2dImplicitGEMM
         return DepthWiseConv2dImplicitGEMM(in_channels, kernel_size, bias=bias)
@@ -33,13 +33,25 @@ def get_conv2d(in_channels, out_channels, kernel_size, stride, padding, dilation
         return nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size, stride=stride,
                          padding=padding, dilation=dilation, groups=groups, bias=bias)
 
+use_sync_bn = False
+
+def enable_sync_bn():
+    global use_sync_bn
+    use_sync_bn = True
+
+def get_bn(channels):
+    if use_sync_bn:
+        return nn.SyncBatchNorm(channels)
+    else:
+        return nn.BatchNorm2d(channels)
+
 def conv_bn(in_channels, out_channels, kernel_size, stride, padding, groups, dilation=1):
     if padding is None:
         padding = kernel_size // 2
     result = nn.Sequential()
     result.add_module('conv', get_conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel_size,
                                          stride=stride, padding=padding, dilation=dilation, groups=groups, bias=False))
-    result.add_module('bn', nn.BatchNorm2d(num_features=out_channels))
+    result.add_module('bn', get_bn(out_channels))
     return result
 
 def conv_bn_relu(in_channels, out_channels, kernel_size, stride, padding, groups, dilation=1):
@@ -120,7 +132,7 @@ class ConvFFN(nn.Module):
     def __init__(self, in_channels, internal_channels, out_channels, drop_path):
         super().__init__()
         self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
-        self.preffn_bn = nn.BatchNorm2d(in_channels)
+        self.preffn_bn = get_bn(in_channels)
         self.pw1 = conv_bn(in_channels=in_channels, out_channels=internal_channels, kernel_size=1, stride=1, padding=0, groups=1)
         self.pw2 = conv_bn(in_channels=internal_channels, out_channels=out_channels, kernel_size=1, stride=1, padding=0, groups=1)
         self.nonlinear = nn.GELU()
@@ -142,7 +154,7 @@ class RepLKBlock(nn.Module):
         self.large_kernel = ReparamLargeKernelConv(in_channels=dw_channels, out_channels=dw_channels, kernel_size=block_lk_size,
                                                   stride=1, groups=dw_channels, small_kernel=small_kernel, small_kernel_merged=small_kernel_merged)
         self.lk_nonlinear = nn.ReLU()
-        self.prelkb_bn = nn.BatchNorm2d(in_channels)
+        self.prelkb_bn = get_bn(in_channels)
         self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
         print('drop path:', self.drop_path)
 
@@ -188,10 +200,19 @@ class RepLKNetStage(nn.Module):
 class RepLKNet(nn.Module):
 
     def __init__(self, large_kernel_sizes, layers, channels, drop_path_rate, small_kernel,
-                 dw_ratio=1, ffn_ratio=4, in_channels=3, num_classes=1000,
+                 dw_ratio=1, ffn_ratio=4, in_channels=3, num_classes=1000, out_indices=None,
                  use_checkpoint=False,
-                 small_kernel_merged=False):
+                 small_kernel_merged=False,
+                 use_sync_bn=True):
         super().__init__()
+
+        if num_classes is None and out_indices is None:
+            raise ValueError('must specify one of num_classes (for pretraining) and out_indices (for downstream tasks)')
+        elif num_classes is not None and out_indices is not None:
+            raise ValueError('cannot specify both num_classes (for pretraining) and out_indices (for downstream tasks)')
+        self.out_indices = out_indices
+        if use_sync_bn:
+            enable_sync_bn()
 
         base_width = channels[0]
         self.use_checkpoint = use_checkpoint
@@ -218,9 +239,11 @@ class RepLKNet(nn.Module):
                     conv_bn_relu(channels[stage_idx + 1], channels[stage_idx + 1], 3, stride=2, padding=1, groups=channels[stage_idx + 1]))
                 self.transitions.append(transition)
 
-        self.norm = nn.BatchNorm2d(channels[-1])
-        self.avgpool = nn.AdaptiveAvgPool2d(1)
-        self.head = nn.Linear(channels[-1], num_classes)
+        if num_classes is not None:
+            self.norm = get_bn(channels[-1])
+            self.avgpool = nn.AdaptiveAvgPool2d(1)
+            self.head = nn.Linear(channels[-1], num_classes)
+
 
 
     def forward_features(self, x):
@@ -230,19 +253,35 @@ class RepLKNet(nn.Module):
                 x = checkpoint.checkpoint(stem_layer, x)     # save memory
             else:
                 x = stem_layer(x)
-        for stage_idx in range(self.num_stages):
-            x = self.stages[stage_idx](x)
-            if stage_idx < self.num_stages - 1:
-                x = self.transitions[stage_idx](x)
-        return x
+
+        if self.out_indices is None:
+            #   Just need the final output
+            for stage_idx in range(self.num_stages):
+                x = self.stages[stage_idx](x)
+                if stage_idx < self.num_stages - 1:
+                    x = self.transitions[stage_idx](x)
+            return x
+        else:
+            #   Need the intermediate feature maps
+            outs = []
+            for stage_idx in range(self.num_stages):
+                x = self.stages[stage_idx](x)
+                if stage_idx in self.out_indices:
+                    outs.append(x)
+                if stage_idx < self.num_stages - 1:
+                    x = self.transitions[stage_idx](x)
+            return outs
 
     def forward(self, x):
         x = self.forward_features(x)
-        x = self.norm(x)
-        x = self.avgpool(x)
-        x = torch.flatten(x, 1)
-        x = self.head(x)
-        return x
+        if self.out_indices:
+            return x
+        else:
+            x = self.norm(x)
+            x = self.avgpool(x)
+            x = torch.flatten(x, 1)
+            x = self.head(x)
+            return x
 
     def structural_reparam(self):
         for m in self.modules():
