@@ -6,7 +6,7 @@ Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs.
 
 The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
 
-Update: training code released. testing
+Update: will upload the models and update the training commands in two days.
 
 ## Other implementations
 
@@ -14,8 +14,7 @@ Update: training code released. testing
 |:---:|:---:|
 |MegEngine (official)|https://github.com/megvii-research/RepLKNet|
 |PyTorch (official)|https://github.com/DingXiaoH/RepLKNet-pytorch|
-|Tensorflow| re-implementations are welcomed |
-|PaddlePaddle  | re-implementations are welcomed |
+|Tensorflow|https://github.com/shkarupa-alex/tfreplknet|
 | ... | |
 
 More re-implementations are welcomed.
@@ -41,7 +40,7 @@ Pull requests (e.g., better or other implementations or implementations on other
 - [x] Model code
 - [x] PyTorch pretrained models
 - [x] PyTorch large-kernel conv impl
-- [ ] PyTorch training code
+- [x] PyTorch training code
 - [ ] PyTorch downstream models
 - [ ] PyTorch downstream code
 
@@ -76,9 +75,55 @@ Pull requests (e.g., better or other implementations or implementations on other
 
 
 ## Evaluation
+For RepLKNet-31B/L with 224x224 or 384x384, we use the "IMAGENET_DEFAULT_MEAN/STD" for preprocessing (see [here](https://github.com/rwightman/pytorch-image-models/blob/73ffade1f8203a611c9cdd6df437b436b780daca/timm/data/constants.py#L2)). For examples,
+```
+python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31B --batch_size 32 --eval True --resume RepLKNet-31B_ImageNet-1K_224.pth --input_size 224
+```
+or
+```
+python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31L --batch_size 32 --eval True --resume RepLKNet-31L_ImageNet-22K-to-1K_384.pth --input_size 384
+```
+For RepLKNet-XL, please note that we used mean=\[0.5,0.5,0.5\] and std=\[0.5,0.5,0.5\] for preprocessing on MegData73M dataset as well as finetuning on ImageNet-1K. This mean/std setting is also referred to as "IMAGENET_INCEPTION_MEAN/STD" in timm, see [here](https://github.com/rwightman/pytorch-image-models/blob/73ffade1f8203a611c9cdd6df437b436b780daca/timm/data/constants.py#L4). Add ```--imagenet_default_mean_and_std false``` to use this mean/std setting (see [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/datasets.py#L58)). As noted in the paper, we did not use small kernels for re-parameterization.
+```
+python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-XL --batch_size 32 --eval true --resume RepLKNet-XL_MegData73M_ImageNet1K.pth --imagenet_default_mean_and_std false --input_size 320
+```
+
+To verify the equivalency of Structural Re-parameterization (i.e., the outputs before and after ``````), add ```--with_small_kernel_merged true```.
 
 
 ## Training
+
+You may use multi-node training on a SLURM cluster with [submitit](https://github.com/facebookincubator/submitit). Please install:
+```
+pip install submitit
+```
+If you have limited GPU memory (e.g., 2080Ti), use ```--use_checkpoint True``` to save GPU memory.
+
+### Pretrain RepLKNet-31B on ImageNet-1K
+Single machine:
+```
+python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 4 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --use_checkpoint True --output_dir your_training_dir
+```
+Four machines:
+```
+python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 4 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --use_checkpoint True --job_dir your_training_dir
+```
+
+### Finetune the ImageNet-1K-pretrained (224x224) RepLKNet-31B with 384x384
+Single machine:
+
+### Pretrain RepLKNet-31B on ImageNet-22K
+
+### Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (224x224)
+
+### Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (384x384)
+
+### Pretrain RepLKNet-31L on ImageNet-22K
+
+### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (224x224)
+
+### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (384x384)
+
 
 ## Acknowledgement
 The released PyTorch training script is based on the code of [ConvNeXt](https://github.com/facebookresearch/ConvNeXt), which was built using the [timm](https://github.com/rwightman/pytorch-image-models) library, [DeiT](https://github.com/facebookresearch/deit) and [BEiT](https://github.com/microsoft/unilm/tree/master/beit) repositories. 
