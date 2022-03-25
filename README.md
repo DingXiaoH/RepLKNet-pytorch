@@ -128,27 +128,37 @@ Single machine:
 
 We use MMSegmentation framework. Just clone MMSegmentation, and
 
-1. Put ```segmentation/configs/\*.py``` into ```mmsegmentation/configs/replknet/```.
-2. Put ```segmentation/replknet.py``` into '''mmsegmentation/mmseg/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
-3. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/\_\_init\_\_.py```. That is
-  '''
+1. Put ```segmentation/replknet.py``` into '''mmsegmentation/mmseg/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
+2. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/\_\_init\_\_.py```. That is
+  ```
   ...
   from .replknet import RepLKNet
   \_\_all\_\_ = \['ResNet', ..., 'RepLKNet'\]
-  '''
-5. Use our released weights.
+  ```
+3. Put ```segmentation/configs/*.py``` into ```mmsegmentation/configs/replknet/```.
+4. Use our released weights.
 
   Cityscapes:
-  '''
+  ```
   python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=-29500 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py /data/dingxiaohan/replknet_release/RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
-  '''
+  ```
   
   ADE20K:
-  
-7. 
 
-## TODO
 
+## Object Detection
+
+We use MMDetection framework. Just clone MMDetection, and
+
+1. Put ```segmentation/replknet.py``` into '''mmdetection/mmdet/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
+2. Add RepLKNet into ```mmdetection/mmdet/models/backbones/\_\_init\_\_.py```. That is
+  ```
+  ...
+  from .replknet import RepLKNet
+  \_\_all\_\_ = \['ResNet', ..., 'RepLKNet'\]
+  ```
+3. Put ```detection/configs/*.py``` into ```mmdetection/configs/replknet/```.
+4. Use our released weights.
 
 ## Acknowledgement
 The released PyTorch training script is based on the code of [ConvNeXt](https://github.com/facebookresearch/ConvNeXt), which was built using the [timm](https://github.com/rwightman/pytorch-image-models) library, [DeiT](https://github.com/facebookresearch/deit) and [BEiT](https://github.com/microsoft/unilm/tree/master/beit) repositories. 
