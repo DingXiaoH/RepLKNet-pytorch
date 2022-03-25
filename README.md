@@ -137,11 +137,13 @@ We use MMSegmentation framework. Just clone MMSegmentation, and
   \_\_all\_\_ = \['ResNet', ..., 'RepLKNet'\]
   '''
 5. Use our released weights.
+
   Cityscapes:
   '''
   python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=-29500 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py /data/dingxiaohan/replknet_release/RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
   '''
-  ADE20:
+  
+  ADE20K:
   
 7. 
 
