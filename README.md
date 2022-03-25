@@ -147,7 +147,6 @@ We use MMSegmentation framework. Just clone MMSegmentation, and
   
 | backbone | pretraining | dataset | train schedule | mIoU (ss) | mIoU (ms) | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|:---:|:---:|
-
 |RepLKNet-31B | ImageNet-1K | Cityscapes | 80k  | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/1j3YwToRqTHHi7ocln0iBz1tE6hItD_JO/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1lqrecK4KQUFt0KobFTFKTQ?pwd=lknt) |
 |RepLKNet-31B | ImageNet-1K | ADE20K     | 160k | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/1ZV1CP1KzeSdH6_wKw4ytVe9BlCGHf89s/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1xjNzR7Z82iqsrocRBFGLLw?pwd=lknt) |
 |RepLKNet-31B | ImageNet-22K| ADE20K     | 160k | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/1W2W4nD2HzTsG_yP9ppLYAqMo3T3JHBNW/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1fJF1FffgbFoRvzBOT3a_gA?pwd=lknt) |
