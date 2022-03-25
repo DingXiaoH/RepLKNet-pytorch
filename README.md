@@ -166,8 +166,8 @@ We use MMDetection framework. Just clone MMDetection, and
 | backbone | pretraining | method | train schedule | AP_box | AP_mask | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|:---:|:---:|
 |RepLKNet-31B | ImageNet-1K | FCOS | 2x | 47.0 | - | 87M | 437G | x |
-|RepLKNet-31B | ImageNet-1K | CascMaskRCNN | 3x | 52.2 | 45.2 | 137M | 965G | [Baidu](https://pan.baidu.com/s/10uM9ypVwzxhOodOoZzhekQ?pwd=lknt) |
-|RepLKNet-31B | ImageNet-22K | CascMaskRCNN | 3x | 53.0 | 46.0 | 137M | 965G | [Baidu](https://pan.baidu.com/s/1sO55h6GD9x8CxrCxxnFOHg?pwd=lknt) |
+|RepLKNet-31B | ImageNet-1K | CascMaskRCNN | 3x | 52.2 | 45.2 | 137M | 965G | [Google Drive](https://drive.google.com/file/d/1XqWSkQZSLMIhyaQvaIhGbuFhdDoRJQ4Z/view?usp=sharing), [Baidu](https://pan.baidu.com/s/10uM9ypVwzxhOodOoZzhekQ?pwd=lknt) |
+|RepLKNet-31B | ImageNet-22K | CascMaskRCNN | 3x | 53.0 | 46.0 | 137M | 965G | [Google Drive](https://drive.google.com/file/d/1faI-MiNuPidum6dC6dGADfYWe6J-bTAz/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1sO55h6GD9x8CxrCxxnFOHg?pwd=lknt) |
 |RepLKNet-31L | ImageNet-22K | CascMaskRCNN | 3x | 53.9 | 46.5 | 229M | 1321G | [Google Drive](https://drive.google.com/file/d/1qLQONhIjCEuykhdy-wHx1Ah9lT3v2OXh/view?usp=sharing), [Baidu](https://pan.baidu.com/s/10VSqeiKowQlccZaQ_RB9nQ?pwd=lknt) |
 |RepLKNet-XL | MegData73M | CascMaskRCNN | 3x | 55.5 | 48.0 | 392M | 1958G | x |
 
