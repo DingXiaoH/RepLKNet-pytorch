@@ -169,7 +169,7 @@ We use MMDetection framework. Just clone MMDetection, and
 |RepLKNet-31B | ImageNet-1K | Cascade Mask RCNN | 3x | 52.2 | 45.2 | 137M | 965G | [Google Drive](https://drive.google.com/file/d/1XqWSkQZSLMIhyaQvaIhGbuFhdDoRJQ4Z/view?usp=sharing), [Baidu](https://pan.baidu.com/s/10uM9ypVwzxhOodOoZzhekQ?pwd=lknt) |
 |RepLKNet-31B | ImageNet-22K | Cascade Mask RCNN | 3x | 53.0 | 46.0 | 137M | 965G | [Google Drive](https://drive.google.com/file/d/1faI-MiNuPidum6dC6dGADfYWe6J-bTAz/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1sO55h6GD9x8CxrCxxnFOHg?pwd=lknt) |
 |RepLKNet-31L | ImageNet-22K | Cascade Mask RCNN | 3x | 53.9 | 46.5 | 229M | 1321G | [Google Drive](https://drive.google.com/file/d/1qLQONhIjCEuykhdy-wHx1Ah9lT3v2OXh/view?usp=sharing), [Baidu](https://pan.baidu.com/s/10VSqeiKowQlccZaQ_RB9nQ?pwd=lknt) |
-|RepLKNet-XL | MegData73M | Cascade Mask RCNN | 3x | 55.5 | 48.0 | 392M | 1958G | uploading |
+|RepLKNet-XL | MegData73M | Cascade Mask RCNN | 3x | 55.5 | 48.0 | 392M | 1958G | [Google Drive](https://drive.google.com/file/d/1i0TqfwQJQUVHWdB5oyDgxlUUqzPZmIVr/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1AVCX86XVBpznstU5E88cyw?pwd=lknt) |
 
 
 ## Acknowledgement
