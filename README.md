@@ -128,12 +128,12 @@ Single machine:
 
 We use MMSegmentation framework. Just clone MMSegmentation, and
 
-1. Put ```segmentation/replknet.py``` into ```mmsegmentation/mmseg/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
-2. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/\_\_init\_\_.py```. That is
+1. Put ```segmentation/replknet.py``` into ```mmsegmentation/mmseg/models/backbones/```. The only difference between ```segmentation/replknet.py``` and ```replknet.py``` is the ```@BACKBONES.register_module```.
+2. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/__init__.py```. That is
   ```
   ...
   from .replknet import RepLKNet
-  \_\_all\_\_ = \['ResNet', ..., 'RepLKNet'\]
+  __all__ = ['ResNet', ..., 'RepLKNet']
   ```
 3. Put ```segmentation/configs/*.py``` into ```mmsegmentation/configs/replknet/```.
 4. Use our released weights.
@@ -150,12 +150,12 @@ We use MMSegmentation framework. Just clone MMSegmentation, and
 
 We use MMDetection framework. Just clone MMDetection, and
 
-1. Put ```segmentation/replknet.py``` into ```mmdetection/mmdet/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
-2. Add RepLKNet into ```mmdetection/mmdet/models/backbones/\_\_init\_\_.py```. That is
+1. Put ```segmentation/replknet.py``` into ```mmdetection/mmdet/models/backbones/```. The only difference between ```segmentation/replknet.py``` and ```replknet.py``` is the ```@BACKBONES.register_module```.
+2. Add RepLKNet into ```mmdetection/mmdet/models/backbones/__init__.py```. That is
   ```
   ...
   from .replknet import RepLKNet
-  \_\_all\_\_ = \['ResNet', ..., 'RepLKNet'\]
+  __all__ = ['ResNet', ..., 'RepLKNet']
   ```
 3. Put ```detection/configs/*.py``` into ```mmdetection/configs/replknet/```.
 4. Download and use our weights. For example,
