@@ -128,7 +128,7 @@ Single machine:
 
 We use MMSegmentation framework. Just clone MMSegmentation, and
 
-1. Put ```segmentation/replknet.py``` into '''mmsegmentation/mmseg/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
+1. Put ```segmentation/replknet.py``` into ```mmsegmentation/mmseg/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
 2. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/\_\_init\_\_.py```. That is
   ```
   ...
@@ -150,7 +150,7 @@ We use MMSegmentation framework. Just clone MMSegmentation, and
 
 We use MMDetection framework. Just clone MMDetection, and
 
-1. Put ```segmentation/replknet.py``` into '''mmdetection/mmdet/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
+1. Put ```segmentation/replknet.py``` into ```mmdetection/mmdet/models/backbones/```. The only difference between segmentation/replknet.py and replknet.py is the ```@BACKBONES.register_module```.
 2. Add RepLKNet into ```mmdetection/mmdet/models/backbones/\_\_init\_\_.py```. That is
   ```
   ...
@@ -159,6 +159,15 @@ We use MMDetection framework. Just clone MMDetection, and
   ```
 3. Put ```detection/configs/*.py``` into ```mmdetection/configs/replknet/```.
 4. Use our released weights.
+
+| backbone | pretraining | method | train schedule | AP_box | AP_mask | #params | FLOPs | download |
+|:---:|:---:|:---:|:---:| :---:| :---:|:---:|:---:|:---:|
+|RepLKNet-31B | ImageNet-1K | FCOS | 2x | 47.0 | - | 87M | 437G | x |
+|RepLKNet-31B | ImageNet-1K | CascMaskRCNN | 3x | 52.2 | 45.2 | 137M | 965G | x |
+|RepLKNet-31B | ImageNet-22K | CascMaskRCNN | 3x | 53.0 | 46.0 | 137M | 965G | x |
+|RepLKNet-31L | ImageNet-22K | CascMaskRCNN | 3x | 53.9 | 46.5 | 229M | 1321G | x |
+|RepLKNet-XL | MegData73M | CascMaskRCNN | 3x | 55.5 | 48.0 | 392M | 1958G | x |
+
 
 ## Acknowledgement
 The released PyTorch training script is based on the code of [ConvNeXt](https://github.com/facebookresearch/ConvNeXt), which was built using the [timm](https://github.com/rwightman/pytorch-image-models) library, [DeiT](https://github.com/facebookresearch/deit) and [BEiT](https://github.com/microsoft/unilm/tree/master/beit) repositories. 
