@@ -9,6 +9,7 @@ The paper is now released on arXiv: https://arxiv.org/abs/2203.06717.
 Update: **all the pretrained models, ImageNet-1K models, and Cityscapes/ADE20K/COCO models have been released**. Will release a script to visualize the ERF in two days.
 
 If you find the paper or this repository helpful, please consider citing
+
         @article{replknet,
         title={Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs},
         author={Ding, Xiaohan and Zhang, Xiangyu and Zhou, Yizhuang and Han, Jungong and Ding, Guiguang and Sun, Jian},
@@ -121,6 +122,8 @@ python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31B --drop_path
 
 ### Finetune the ImageNet-1K-pretrained (224x224) RepLKNet-31B with 384x384
 Single machine:
+
+(coming soon in two days)
 
 ### Pretrain RepLKNet-31B on ImageNet-22K
 
