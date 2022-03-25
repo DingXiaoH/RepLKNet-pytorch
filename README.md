@@ -138,20 +138,20 @@ We use MMSegmentation framework. Just clone MMSegmentation, and
 3. Put ```segmentation/configs/*.py``` into ```mmsegmentation/configs/replknet/```.
 4. Download and use our released weights.
 
-  Cityscapes:
+  For example
   ```
-  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=-29500 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py /data/dingxiaohan/replknet_release/RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
+  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=-29500 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
   ```
   
-  Single-scale (ss) and multi-scale (ms) mIoU tested with UperNet: 
+  Single-scale (ss) and multi-scale (ms) mIoU tested with UperNet (FLOPs is computed with 2048×512 for the ImageNet-1K pretrained models and 2560×640 for the 22K and MegData73M pretrained models, following Swin): 
   
 | backbone | pretraining | dataset | train schedule | mIoU (ss) | mIoU (ms) | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|:---:|:---:|
-|RepLKNet-31B | ImageNet-1K | Cityscapes | 80k  | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/1j3YwToRqTHHi7ocln0iBz1tE6hItD_JO/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1lqrecK4KQUFt0KobFTFKTQ?pwd=lknt) |
-|RepLKNet-31B | ImageNet-1K | ADE20K     | 160k | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/1ZV1CP1KzeSdH6_wKw4ytVe9BlCGHf89s/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1xjNzR7Z82iqsrocRBFGLLw?pwd=lknt) |
-|RepLKNet-31B | ImageNet-22K| ADE20K     | 160k | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/1W2W4nD2HzTsG_yP9ppLYAqMo3T3JHBNW/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1fJF1FffgbFoRvzBOT3a_gA?pwd=lknt) |
-|RepLKNet-31L | ImageNet-22K| ADE20K     | 160k | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/1nrZ723LC3QYjcVHJm8jpOOcecfWMsjxL/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1W4hc2iuUyfB3UH7OWul60g?pwd=lknt) |
-|RepLKNet-XL  | MegData73M  | ADE20K     | 160k | x | x | xM | xG | [Google Drive](https://drive.google.com/file/d/14GbBI8tdeEl_ECytDCdrfAfNm1McqMv4/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1TYSxbj2Zh_Rfq9-aGM3lyA?pwd=lknt) |
+|RepLKNet-31B | ImageNet-1K | Cityscapes | 80k  | 83.1 | 83.5 | 110M | 2315G | [Google Drive](https://drive.google.com/file/d/1j3YwToRqTHHi7ocln0iBz1tE6hItD_JO/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1lqrecK4KQUFt0KobFTFKTQ?pwd=lknt) |
+|RepLKNet-31B | ImageNet-1K | ADE20K     | 160k | 49.9 | 50.6 | 112M | 1170G | [Google Drive](https://drive.google.com/file/d/1ZV1CP1KzeSdH6_wKw4ytVe9BlCGHf89s/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1xjNzR7Z82iqsrocRBFGLLw?pwd=lknt) |
+|RepLKNet-31B | ImageNet-22K| ADE20K     | 160k | 51.5 | 52.3 | 112M | 1829G | [Google Drive](https://drive.google.com/file/d/1W2W4nD2HzTsG_yP9ppLYAqMo3T3JHBNW/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1fJF1FffgbFoRvzBOT3a_gA?pwd=lknt) |
+|RepLKNet-31L | ImageNet-22K| ADE20K     | 160k | 52.4 | 52.7 | 207M | 2404G | [Google Drive](https://drive.google.com/file/d/1nrZ723LC3QYjcVHJm8jpOOcecfWMsjxL/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1W4hc2iuUyfB3UH7OWul60g?pwd=lknt) |
+|RepLKNet-XL  | MegData73M  | ADE20K     | 160k | 55.2 | 56.0 | 374M | 3431G | [Google Drive](https://drive.google.com/file/d/14GbBI8tdeEl_ECytDCdrfAfNm1McqMv4/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1TYSxbj2Zh_Rfq9-aGM3lyA?pwd=lknt) |
 
 
 ## Object Detection
