@@ -70,7 +70,7 @@ Pull requests (e.g., better or other implementations or implementations on other
 (uploading)
 | name | resolution |ImageNet-1K acc | #params | FLOPs | MegData-73M pretrained model | 1K finetuned model |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|
-|RepLKNet-XL| 320x320 | 87.8 | 335M | 128.7G | [Google Drive](https://drive.google.com/file/d/1CBHAEUlCzoHfiAQmMIjZhDMAIyHUmAAj/view?usp=sharing), [Baidu](https://pan.baidu.com/s/168Wb2P3rSp23-DCpNG3aCQ?pwd=lknt) | 
+|RepLKNet-XL| 320x320 | 87.8 | 335M | 128.7G | [Google Drive](https://drive.google.com/file/d/1CBHAEUlCzoHfiAQmMIjZhDMAIyHUmAAj/view?usp=sharing), [Baidu](https://pan.baidu.com/s/168Wb2P3rSp23-DCpNG3aCQ?pwd=lknt) | [Google Drive](https://drive.google.com/file/d/1tPC60El34GntXByIRHb-z-Apm4Y5LX1T/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1C1bJJLz9O28ChZ4NcxjUsw?pwd=lknt)|
 
 
 
