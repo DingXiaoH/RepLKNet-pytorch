@@ -301,8 +301,23 @@ class RepLKNet(nn.Module):
     #   The BNs after and before conv layers can be removed.
     #   No need to call this if your framework support automatic BN fusion.
     def deep_fuse_BN(self):
-        #TODO
-        pass
+        for m in self.modules():
+            if not isinstance(m, nn.Sequential):
+                continue
+            if not len(m) in [2, 3]:  # Only handle conv-BN or conv-BN-relu
+                continue
+            #   If you use a custom Conv2d impl, assume it also has 'kernel_size' and 'weight'
+            if hasattr(m[0], 'kernel_size') and hasattr(m[0], 'weight') and isinstance(m[1], nn.BatchNorm2d):
+                conv = m[0]
+                bn = m[1]
+                fused_kernel, fused_bias = fuse_bn(conv, bn)
+                fused_conv = get_conv2d(conv.in_channels, conv.out_channels, kernel_size=conv.kernel_size,
+                                        stride=conv.stride,
+                                        padding=conv.padding, dilation=conv.dilation, groups=conv.groups, bias=True)
+                fused_conv.weight.data = fused_kernel
+                fused_conv.bias.data = fused_bias
+                m[0] = fused_conv
+                m[1] = nn.Identity()
 
 
 def create_RepLKNet31B(drop_path_rate=0.3, num_classes=1000, use_checkpoint=True, small_kernel_merged=False):
