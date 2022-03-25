@@ -4,9 +4,17 @@ This is the official PyTorch implementation of **RepLKNet**, from the following 
 
 Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs.
 
-The paper is released on arXiv: https://arxiv.org/abs/2203.06717.
+The paper is now released on arXiv: https://arxiv.org/abs/2203.06717.
 
 Update: **all the pretrained models, ImageNet-1K models, and Cityscapes/ADE20K/COCO models have been released**. Will release a script to visualize the ERF in two days.
+
+If you find the paper or this repository helpful, please consider citing
+        @article{replknet,
+        title={Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs},
+        author={Ding, Xiaohan and Zhang, Xiangyu and Zhou, Yizhuang and Han, Jungong and Ding, Guiguang and Sun, Jian},
+        journal={arXiv preprint arXiv:2203.06717},
+        year={2022}
+        }
 
 ## Other implementations
 
@@ -41,8 +49,10 @@ Pull requests (e.g., better or other implementations or implementations on other
 - [x] PyTorch pretrained models
 - [x] PyTorch large-kernel conv impl
 - [x] PyTorch training code
-- [ ] PyTorch downstream models
-- [ ] PyTorch downstream code
+- [x] PyTorch downstream models
+- [x] PyTorch downstream code
+- [ ] A script to visualize the ERF
+- [ ] How to obtain the shape bias
 
 <!-- ✅ ⬜️  -->
 
