@@ -172,7 +172,8 @@ class RepLKNetStage(nn.Module):
     def __init__(self, channels, num_blocks, stage_lk_size, drop_path,
                  small_kernel, dw_ratio=1, ffn_ratio=4,
                  use_checkpoint=False,      # train with torch.utils.checkpoint to save memory
-                 small_kernel_merged=False):
+                 small_kernel_merged=False,
+                 norm_intermediate_features=False):
         super().__init__()
         self.use_checkpoint = use_checkpoint
         blks = []
@@ -186,7 +187,10 @@ class RepLKNetStage(nn.Module):
             blks.append(replk_block)
             blks.append(convffn_block)
         self.blocks = nn.ModuleList(blks)
-
+        if norm_intermediate_features:
+            self.norm = get_bn(channels)    #   Only use this with RepLKNet-XL on downstream tasks
+        else:
+            self.norm = nn.Identity()
 
     def forward(self, x):
         for blk in self.blocks:
@@ -196,26 +200,30 @@ class RepLKNetStage(nn.Module):
                 x = blk(x)
         return x
 
-
 class RepLKNet(nn.Module):
 
     def __init__(self, large_kernel_sizes, layers, channels, drop_path_rate, small_kernel,
                  dw_ratio=1, ffn_ratio=4, in_channels=3, num_classes=1000, out_indices=None,
                  use_checkpoint=False,
                  small_kernel_merged=False,
-                 use_sync_bn=True):
+                 use_sync_bn=True,
+                 norm_intermediate_features=False       # for RepLKNet-XL on COCO and ADE20K, use an extra BN to normalize the intermediate feature maps then feed them into the heads
+                 ):
         super().__init__()
 
         if num_classes is None and out_indices is None:
             raise ValueError('must specify one of num_classes (for pretraining) and out_indices (for downstream tasks)')
         elif num_classes is not None and out_indices is not None:
             raise ValueError('cannot specify both num_classes (for pretraining) and out_indices (for downstream tasks)')
+        elif num_classes is not None and norm_intermediate_features:
+            raise ValueError('for pretraining, no need to normalize the intermediate feature maps')
         self.out_indices = out_indices
         if use_sync_bn:
             enable_sync_bn()
 
         base_width = channels[0]
         self.use_checkpoint = use_checkpoint
+        self.norm_intermediate_features = norm_intermediate_features
         self.num_stages = len(layers)
         self.stem = nn.ModuleList([
             conv_bn_relu(in_channels=in_channels, out_channels=base_width, kernel_size=3, stride=2, padding=1, groups=1),
@@ -231,7 +239,8 @@ class RepLKNet(nn.Module):
                                   stage_lk_size=large_kernel_sizes[stage_idx],
                                   drop_path=dpr[sum(layers[:stage_idx]):sum(layers[:stage_idx + 1])],
                                   small_kernel=small_kernel, dw_ratio=dw_ratio, ffn_ratio=ffn_ratio,
-                                  use_checkpoint=use_checkpoint, small_kernel_merged=small_kernel_merged)
+                                  use_checkpoint=use_checkpoint, small_kernel_merged=small_kernel_merged,
+                                  norm_intermediate_features=norm_intermediate_features)
             self.stages.append(layer)
             if stage_idx < len(layers) - 1:
                 transition = nn.Sequential(
@@ -267,7 +276,7 @@ class RepLKNet(nn.Module):
             for stage_idx in range(self.num_stages):
                 x = self.stages[stage_idx](x)
                 if stage_idx in self.out_indices:
-                    outs.append(x)
+                    outs.append(self.stages[stage_idx].norm(x))     # For RepLKNet-XL normalize the features before feeding them into the heads
                 if stage_idx < self.num_stages - 1:
                     x = self.transitions[stage_idx](x)
             return outs
