@@ -6,7 +6,9 @@ Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs.
 
 The paper is now released on arXiv: https://arxiv.org/abs/2203.06717.
 
-Update: **all the pretrained models, ImageNet-1K models, and Cityscapes/ADE20K/COCO models have been released**. Will release a script to visualize the ERF in two days.
+Update: **all the pretrained models, ImageNet-1K models, and Cityscapes/ADE20K/COCO models have been released**. 
+
+Update: **released a script to visualize the ERF. To get the ERF of your own model, you only need to add a few lines of code!**
 
 If you find the paper or this repository helpful, please consider citing
 
