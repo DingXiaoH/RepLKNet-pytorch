@@ -49,12 +49,12 @@ def main(args):
     ]
     transform = transforms.Compose(t)
 
-    # print("reading from datapath", args.data_path)
-    # root = os.path.join(args.data_path, 'val')
-    # dataset = datasets.ImageFolder(root, transform=transform)
-    nori_root = os.path.join('/home/dingxiaohan/ndp/', 'imagenet.val.nori.list')
-    from nori_dataset import ImageNetNoriDataset      # Data source on our machines. You will never need it.
-    dataset = ImageNetNoriDataset(nori_root, transform=transform)
+    print("reading from datapath", args.data_path)
+    root = os.path.join(args.data_path, 'val')
+    dataset = datasets.ImageFolder(root, transform=transform)
+    # nori_root = os.path.join('/home/dingxiaohan/ndp/', 'imagenet.val.nori.list')
+    # from nori_dataset import ImageNetNoriDataset      # Data source on our machines. You will never need it.
+    # dataset = ImageNetNoriDataset(nori_root, transform=transform)
 
     sampler_val = torch.utils.data.SequentialSampler(dataset)
     data_loader_val = torch.utils.data.DataLoader(dataset, sampler=sampler_val,
