@@ -45,7 +45,7 @@ We have released an example for **PyTorch**. Please check ```setup.py``` and ```
 
 Our implementation mentioned in the paper has been integrated into MegEngine. The engine will automatically use it. If you would like to use it in other frameworks like Tensorflow, you may need to compile our released cuda sources (the ```*.cu``` files in the above example should work with other frameworks) and use some tools to load them, just like ```cutlass``` and ```torch.utils.cpp_extension``` in the PyTorch example. Would be appreciated if you could share with us your experience.
 
-You may refer to the MegEngine source code: https://github.com/MegEngine/MegEngine/tree/8a2e92bd6c5ac02807b27d174dce090ee391000b/dnn/src/cuda/conv_bias/chanwise. . 
+You may refer to the MegEngine source code: https://github.com/MegEngine/MegEngine/tree/8a2e92bd6c5ac02807b27d174dce090ee391000b/dnn/src/cuda/conv_bias/chanwise.
 
 Pull requests (e.g., better or other implementations or implementations on other frameworks) are welcomed.
 
@@ -82,7 +82,7 @@ Pull requests (e.g., better or other implementations or implementations on other
 
 
 ### MegData-73M Models
-(uploading)
+
 | name | resolution |ImageNet-1K acc | #params | FLOPs | MegData-73M pretrained model | 1K finetuned model |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|
 |RepLKNet-XL| 320x320 | 87.8 | 335M | 128.7G | [Google Drive](https://drive.google.com/file/d/1CBHAEUlCzoHfiAQmMIjZhDMAIyHUmAAj/view?usp=sharing), [Baidu](https://pan.baidu.com/s/168Wb2P3rSp23-DCpNG3aCQ?pwd=lknt) | [Google Drive](https://drive.google.com/file/d/1tPC60El34GntXByIRHb-z-Apm4Y5LX1T/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1C1bJJLz9O28ChZ4NcxjUsw?pwd=lknt)|
@@ -90,6 +90,7 @@ Pull requests (e.g., better or other implementations or implementations on other
 
 
 ## Evaluation
+
 For RepLKNet-31B/L with 224x224 or 384x384, we use the "IMAGENET_DEFAULT_MEAN/STD" for preprocessing (see [here](https://github.com/rwightman/pytorch-image-models/blob/73ffade1f8203a611c9cdd6df437b436b780daca/timm/data/constants.py#L2)). For examples,
 ```
 python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31B --batch_size 32 --eval True --resume RepLKNet-31B_ImageNet-1K_224.pth --input_size 224
@@ -150,28 +151,34 @@ python run_with_submitit.py --nodes 16 --ngpus 8 --model RepLKNet-31L --drop_pat
 python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31L --drop_path 0.3 --input_size 384 --batch_size 16 --lr 4e-4 --epochs 30 --weight_decay 1e-8 --update_freq 1 --cutmix 0 --mixup 0 --finetune RepLKNet-31L_ImageNet-22K.pth --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 1 --job_dir your_training_dir --layer_decay 0.7 --min_lr 3e-4
 ```
 
-## Semantic Segmentation
+## Semantic Segmentation and Object Detection
 
-We use MMSegmentation framework. Just clone MMSegmentation, and
+We use MMSegmentation and MMDetection frameworks. Just clone MMSegmentation or MMDetection, and
 
-1. Put ```segmentation/replknet.py``` into ```mmsegmentation/mmseg/models/backbones/```. The only difference between ```segmentation/replknet.py``` and ```replknet.py``` is the ```@BACKBONES.register_module```.
-2. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/__init__.py```. That is
+1. Put ```segmentation/replknet.py``` into ```mmsegmentation/mmseg/models/backbones/``` or ```mmdetection/mmdet/models/backbones/```. The only difference between ```segmentation/replknet.py``` and ```replknet.py``` is the ```@BACKBONES.register_module```.
+2. Add RepLKNet into ```mmsegmentation/mmseg/models/backbones/__init__.py``` or ```mmdetection/mmdet/models/backbones/__init__.py```. That is
   ```
   ...
   from .replknet import RepLKNet
   __all__ = ['ResNet', ..., 'RepLKNet']
   ```
-3. Put ```segmentation/configs/*.py``` into ```mmsegmentation/configs/replknet/```.
-4. Download and use our weights. For example, to evaluate a model:
+3. Put ```segmentation/configs/*.py``` into ```mmsegmentation/configs/replknet/``` or ```detection/configs/*.py``` into ```mmdetection/configs/replknet/```
+4. Download and use our weights. For examples, to evaluate RepLKNet-31B + UperNet on Cityscapes
   ```
-  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=12345 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
+  python3 -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
+  ```
+  or RepLKNet-31B + Cascade Mask R-CNN on COCO:
+  ```
+  python -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_22Kpretrain_cascade_mask_rcnn_3x_coco.py RepLKNet-31B_ImageNet-22K_CascMaskRCNN_COCO.pth --eval bbox --launcher pytorch
   ```
 5. Or you may finetune our released pretrained weights. For example,
   ```
-  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=12345 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
+  python3 -m torch.distributed.launch --nproc_per_node=8 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
   ```
+  
+We have released all the Cityscapes/ADE20K/COCO model weights.
  
-  Single-scale (ss) and multi-scale (ms) mIoU tested with UperNet (FLOPs is computed with 2048×512 for the ImageNet-1K pretrained models and 2560×640 for the 22K and MegData73M pretrained models, following Swin): 
+Single-scale (ss) and multi-scale (ms) mIoU tested with UperNet (FLOPs is computed with 2048×512 for the ImageNet-1K pretrained models and 2560×640 for the 22K and MegData73M pretrained models, following Swin): 
   
 | backbone | pretraining | dataset | train schedule | mIoU (ss) | mIoU (ms) | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|:---:|:---:|
@@ -181,27 +188,7 @@ We use MMSegmentation framework. Just clone MMSegmentation, and
 |RepLKNet-31L | ImageNet-22K| ADE20K     | 160k | 52.4 | 52.7 | 207M | 2404G | [Google Drive](https://drive.google.com/file/d/1nrZ723LC3QYjcVHJm8jpOOcecfWMsjxL/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1W4hc2iuUyfB3UH7OWul60g?pwd=lknt) |
 |RepLKNet-XL  | MegData73M  | ADE20K     | 160k | 55.2 | 56.0 | 374M | 3431G | [Google Drive](https://drive.google.com/file/d/14GbBI8tdeEl_ECytDCdrfAfNm1McqMv4/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1TYSxbj2Zh_Rfq9-aGM3lyA?pwd=lknt) |
 
-
-## Object Detection
-
-We use MMDetection framework. Just clone MMDetection, and
-
-1. Put ```segmentation/replknet.py``` into ```mmdetection/mmdet/models/backbones/```. The only difference between ```segmentation/replknet.py``` and ```replknet.py``` is the ```@BACKBONES.register_module```.
-2. Add RepLKNet into ```mmdetection/mmdet/models/backbones/__init__.py```. That is
-  ```
-  ...
-  from .replknet import RepLKNet
-  __all__ = ['ResNet', ..., 'RepLKNet']
-  ```
-3. Put ```detection/configs/*.py``` into ```mmdetection/configs/replknet/```.
-4. Download and use our weights. For example, to evaluate a model:
-  ```
-  python -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_22Kpretrain_cascade_mask_rcnn_3x_coco.py RepLKNet-31B_ImageNet-22K_CascMaskRCNN_COCO.pth --eval bbox --launcher pytorch
-  ```
-5. Or you may finetune our released pretrained weights. For example,
-  ```
-  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=12345 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
-  ```
+Cascade Mask R-CNN on COCO:
 
 | backbone | pretraining | method | train schedule | AP_box | AP_mask | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|:---:|:---:|
