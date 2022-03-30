@@ -243,6 +243,52 @@ The released PyTorch training script is based on the code of [ConvNeXt](https://
 ## License
 This project is released under the MIT license. Please see the [LICENSE](LICENSE) file for more information.
 
+## Contact
+dxh17@mails.tsinghua.edu.cn
+
+Google Scholar Profile: https://scholar.google.com/citations?user=CIjw0KoAAAAJ&hl=en
+
+My open-sourced papers and repos: 
+
+The **Structural Re-parameterization Universe**:
+
+1. RepLKNet (CVPR 2022) **Powerful efficient architecture with very large kernels (31x31) and guidelines for using large kernels in model CNNs**\
+[Scaling Up Your Kernels to 31x31: Revisiting Large Kernel Design in CNNs](https://arxiv.org/abs/2203.06717)\
+[code](https://github.com/DingXiaoH/RepLKNet-pytorch).
+
+2. RepMLP (CVPR 2022) **MLP-style building block and Architecture**\
+[RepMLPNet: Hierarchical Vision MLP with Re-parameterized Locality](https://arxiv.org/abs/2112.11081)\
+[code](https://github.com/DingXiaoH/RepMLP).
+
+3. RepVGG (CVPR 2021) **A super simple and powerful VGG-style ConvNet architecture**. Up to **84.16%** ImageNet top-1 accuracy!\
+[RepVGG: Making VGG-style ConvNets Great Again](https://arxiv.org/abs/2101.03697)\
+[code](https://github.com/DingXiaoH/RepVGG).
+
+4. ResRep (ICCV 2021) **State-of-the-art** channel pruning (Res50, 55\% FLOPs reduction, 76.15\% acc)\
+[ResRep: Lossless CNN Pruning via Decoupling Remembering and Forgetting](https://openaccess.thecvf.com/content/ICCV2021/papers/Ding_ResRep_Lossless_CNN_Pruning_via_Decoupling_Remembering_and_Forgetting_ICCV_2021_paper.pdf)\
+[code](https://github.com/DingXiaoH/ResRep).
+
+5. ACB (ICCV 2019) is a CNN component without any inference-time costs. The first work of our Structural Re-parameterization Universe.\
+[ACNet: Strengthening the Kernel Skeletons for Powerful CNN via Asymmetric Convolution Blocks](http://openaccess.thecvf.com/content_ICCV_2019/papers/Ding_ACNet_Strengthening_the_Kernel_Skeletons_for_Powerful_CNN_via_Asymmetric_ICCV_2019_paper.pdf).\
+[code](https://github.com/DingXiaoH/ACNet). 
+
+6. DBB (CVPR 2021) is a CNN component with higher performance than ACB and still no inference-time costs. Sometimes I call it ACNet v2 because "DBB" is 2 bits larger than "ACB" in ASCII (lol).\
+[Diverse Branch Block: Building a Convolution as an Inception-like Unit](https://arxiv.org/abs/2103.13425)\
+[code](https://github.com/DingXiaoH/DiverseBranchBlock).
+
+7. COMING SOON
+
+**Model compression and acceleration**:
+
+1. (CVPR 2019) Channel pruning: [Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated Structure](http://openaccess.thecvf.com/content_CVPR_2019/html/Ding_Centripetal_SGD_for_Pruning_Very_Deep_Convolutional_Networks_With_Complicated_CVPR_2019_paper.html)\
+[code](https://github.com/DingXiaoH/Centripetal-SGD)
+
+2. (ICML 2019) Channel pruning: [Approximated Oracle Filter Pruning for Destructive CNN Width Optimization](http://proceedings.mlr.press/v97/ding19a.html)\
+[code](https://github.com/DingXiaoH/AOFP)
+
+3. (NeurIPS 2019) Unstructured pruning: [Global Sparse Momentum SGD for Pruning Very Deep Neural Networks](http://papers.nips.cc/paper/8867-global-sparse-momentum-sgd-for-pruning-very-deep-neural-networks.pdf)\
+[code](https://github.com/DingXiaoH/GSM-SGD)
+
 
 
 
