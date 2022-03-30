@@ -165,7 +165,7 @@ We use MMSegmentation and MMDetection frameworks. Just clone MMSegmentation or M
 3. Put ```segmentation/configs/*.py``` into ```mmsegmentation/configs/replknet/``` or ```detection/configs/*.py``` into ```mmdetection/configs/replknet/```
 4. Download and use our weights. For examples, to evaluate RepLKNet-31B + UperNet on Cityscapes
   ```
-  python3 -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
+  python -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
   ```
   or RepLKNet-31B + Cascade Mask R-CNN on COCO:
   ```
@@ -173,7 +173,7 @@ We use MMSegmentation and MMDetection frameworks. Just clone MMSegmentation or M
   ```
 5. Or you may finetune our released pretrained weights. For example,
   ```
-  python3 -m torch.distributed.launch --nproc_per_node=8 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
+  python -m torch.distributed.launch --nproc_per_node=8 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
   ```
   
 We have released all the Cityscapes/ADE20K/COCO model weights.
@@ -188,7 +188,7 @@ Single-scale (ss) and multi-scale (ms) mIoU tested with UperNet (FLOPs is comput
 |RepLKNet-31L | ImageNet-22K| ADE20K     | 160k | 52.4 | 52.7 | 207M | 2404G | [Google Drive](https://drive.google.com/file/d/1nrZ723LC3QYjcVHJm8jpOOcecfWMsjxL/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1W4hc2iuUyfB3UH7OWul60g?pwd=lknt) |
 |RepLKNet-XL  | MegData73M  | ADE20K     | 160k | 55.2 | 56.0 | 374M | 3431G | [Google Drive](https://drive.google.com/file/d/14GbBI8tdeEl_ECytDCdrfAfNm1McqMv4/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1TYSxbj2Zh_Rfq9-aGM3lyA?pwd=lknt) |
 
-Cascade Mask R-CNN on COCO:
+Cascade Mask R-CNN on COCO (FLOPs is computed with 1280x800):
 
 | backbone | pretraining | method | train schedule | AP_box | AP_mask | #params | FLOPs | download |
 |:---:|:---:|:---:|:---:| :---:| :---:|:---:|:---:|:---:|
@@ -208,7 +208,7 @@ Cascade Mask R-CNN on COCO:
 
 ## Visualizing the Effective Receptive Field
 
-We have released our script to visualize and analyze the Effective Receptive Field (ERF). For example, to automatically download the ResNet-101 from torchvision and visualize its ERF by
+We have released our script to visualize and analyze the Effective Receptive Field (ERF). For example, to automatically download the ResNet-101 from torchvision and obtain the aggregated contribution score matrix,
 ```
 python erf/visualize_erf.py --model resnet101 --data_path /path/to/imagenet-1k --save_path resnet101_erf_matrix.npy
 ```
