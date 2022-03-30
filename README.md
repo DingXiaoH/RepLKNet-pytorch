@@ -119,22 +119,28 @@ python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-3
 ```
 Four machines:
 ```
-python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 4 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --use_checkpoint True --job_dir your_training_dir
+python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 1 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --use_checkpoint True --job_dir your_training_dir
 ```
+In the following, we only present multi-machine commands. You may train with a single machine in a similar way.
+
+If you have limited GPU memory, add ```--use_checkpoint True```.
 
 ### Finetune the ImageNet-1K-pretrained (224x224) RepLKNet-31B with 384x384
-Single machine:
-
-(coming soon in two days)
-
+```
+python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31B --drop_path 0.8 --input_size 384 --batch_size 32 --lr 4e-4  --epochs 30 --weight_decay 1e-8 --update_freq 1 --cutmix 0 --mixup 0 --finetune RepLKNet-31B_ImageNet-1K_224.pth --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 1 --job_dir your_training_dir --layer_decay 0.7
+```
 ### Pretrain RepLKNet-31B on ImageNet-22K
-
+```
+python run_with_submitit.py --nodes 16 --ngpus 8 --model RepLKNet-31B --drop_path 0.1 --batch_size 32 --lr 4e-3 --update_freq 1 --warmup_epochs 5 --epochs 90 --data_set image_folder --nb_classes 21841 --disable_eval true --data_path /path/to/imagenet-22k --job_dir /path/to/save_results
+```
 ### Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (224x224)
 
 ### Finetune 22K-pretrained RepLKNet-31B on ImageNet-1K (384x384)
 
 ### Pretrain RepLKNet-31L on ImageNet-22K
-
+```
+python run_with_submitit.py --nodes 16 --ngpus 8 --model RepLKNet-31L --drop_path 0.1 --batch_size 32 --lr 4e-3 --update_freq 1 --warmup_epochs 5 --epochs 90 --data_set image_folder --nb_classes 21841 --disable_eval true --data_path /path/to/imagenet-22k --job_dir /path/to/save_results
+```
 ### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (224x224)
 
 ### Finetune 22K-pretrained RepLKNet-31L on ImageNet-1K (384x384)
