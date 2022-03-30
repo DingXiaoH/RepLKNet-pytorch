@@ -113,11 +113,11 @@ pip install submitit
 If you have limited GPU memory (e.g., 2080Ti), use ```--use_checkpoint true``` to save GPU memory.
 
 ### Pretrain RepLKNet-31B on ImageNet-1K
-Single machine:
+Single machine (note ```--update_freq 4```):
 ```
 python -m torch.distributed.launch --nproc_per_node=8 main.py --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 4 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --output_dir your_training_dir
 ```
-Four machines:
+Four machines (note ```--update_freq 1```):
 ```
 python run_with_submitit.py --nodes 4 --ngpus 8 --model RepLKNet-31B --drop_path 0.5 --batch_size 64 --lr 4e-3 --update_freq 1 --model_ema true --model_ema_eval true --data_path /path/to/imagenet-1k --warmup_epochs 10 --epochs 300 --job_dir your_training_dir
 ```
@@ -162,7 +162,11 @@ We use MMSegmentation framework. Just clone MMSegmentation, and
 3. Put ```segmentation/configs/*.py``` into ```mmsegmentation/configs/replknet/```.
 4. Download and use our weights. For example, to evaluate a model:
   ```
-  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=-29500 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
+  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=12345 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
+  ```
+5. Or you may finetune our released pretrained weights. For example,
+  ```
+  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=12345 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
   ```
  
   Single-scale (ss) and multi-scale (ms) mIoU tested with UperNet (FLOPs is computed with 2048×512 for the ImageNet-1K pretrained models and 2560×640 for the 22K and MegData73M pretrained models, following Swin): 
@@ -191,6 +195,10 @@ We use MMDetection framework. Just clone MMDetection, and
 4. Download and use our weights. For example, to evaluate a model:
   ```
   python -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_22Kpretrain_cascade_mask_rcnn_3x_coco.py RepLKNet-31B_ImageNet-22K_CascMaskRCNN_COCO.pth --eval bbox --launcher pytorch
+  ```
+5. Or you may finetune our released pretrained weights. For example,
+  ```
+  python3 -m torch.distributed.launch --nproc_per_node=8 --master_port=12345 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
   ```
 
 | backbone | pretraining | method | train schedule | AP_box | AP_mask | #params | FLOPs | download |
