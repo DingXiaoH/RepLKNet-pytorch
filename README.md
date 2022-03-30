@@ -217,6 +217,36 @@ We use MMDetection framework. Just clone MMDetection, and
 4. Lowering the learning rate for lower-level layers may improve the performance when finetuning on ImageNet-1K or downstream tasks, just like ConvNeXt and BeiT. I don't know if the improvements will be significant. You may follow the implementation in ConvNeXt and BeiT. If you need a showcase, please raise an issue.
 5. Tips on the drop_path_rate: bigger model, higher drop_path; bigger pretraining data, lower drop_path.
 
+## Visualizing the Effective Receptive Field
+
+We have released our script to visualize and analyze the Effective Receptive Field (ERF). For example, to automatically download the ResNet-101 from torchvision and visualize its ERF by
+```
+python erf/visualize_erf.py --model resnet101 --data_path /path/to/imagenet-1k --save_path resnet101_erf_matrix.npy
+```
+Then calculate the high-contribution area ratio and visualize the ERF by
+```
+python erf/analyze_erf.py --source resnet101_erf_matrix.npy --heatmap_save resnet101_heatmap.png
+```
+Note this plotting script works with matplotlib 3.3. If you use a higher version of matplotlib, see the comments [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/erf/analyze_erf.py#L40).
+
+To visualize your own model, first define a model that outputs the last feature map rather than the logits (following [this example](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/erf/resnet_for_erf.py#L25)), add the code for building model and loading weights [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/erf/visualize_erf.py#L74), then
+```
+python erf/visualize_erf.py --model your_model --weights /path/to/your/weights --data_path /path/to/imagenet-1k --save_path your_model_erf_matrix.npy
+```
+
+## How to obtain the shape bias
+
+1. Install https://github.com/bethgelab/model-vs-human
+2. Add your code for building model and loading weights in [this file](https://github.com/bethgelab/model-vs-human/blob/master/modelvshuman/models/pytorch/model_zoo.py). For example
+```
+@register_model("pytorch")
+def replknet(model_name, *args):
+    model = ...
+    model.load_state_dict(...)
+    return model
+```
+3. Modify examples/evaluate.py (```models = ['replknet']```) and examples/plotting_definition.py (```decision_makers.append(DecisionMaker(name_pattern="replknet", ...))```), following its examples. 
+
 
 ## Acknowledgement
 The released PyTorch training script is based on the code of [ConvNeXt](https://github.com/facebookresearch/ConvNeXt), which was built using the [timm](https://github.com/rwightman/pytorch-image-models) library, [DeiT](https://github.com/facebookresearch/deit) and [BEiT](https://github.com/microsoft/unilm/tree/master/beit) repositories. 
