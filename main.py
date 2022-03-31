@@ -298,7 +298,7 @@ def main(args):
     if args.layer_decay < 1.0 or args.layer_decay > 1.0:
         num_layers = 12
         #   set lower learning rate for lower-level layers.
-        #   follow the implementation in the code of ConvNeXt
+        #   follow the implementation in the code of ConvNeXt and BeiT
         assigner = RepLKNetLayerDecayValueAssigner(list(args.layer_decay ** (num_layers + 1 - i) for i in range(num_layers + 2)))
     else:
         assigner = None

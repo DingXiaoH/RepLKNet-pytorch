@@ -20,7 +20,7 @@ from torch import optim as optim
 def parse_args():
     parser = argparse.ArgumentParser('Script for visualizing the ERF', add_help=False)
     parser.add_argument('--model', default='resnet101', type=str, help='model name')
-    parser.add_argument('--weights', default=None, type=str, help='path to weights file')
+    parser.add_argument('--weights', default=None, type=str, help='path to weights file. For resnet101/152, ignore this arg to download from torchvision')
     parser.add_argument('--data_path', default='path_to_imagenet', type=str, help='dataset path')
     parser.add_argument('--save_path', default='temp.npy', type=str, help='path to save the ERF matrix (.npy file)')
     parser.add_argument('--num_images', default=50, type=int, help='num of images to use')

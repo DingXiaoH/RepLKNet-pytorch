@@ -25,7 +25,7 @@ plt.rcParams['axes.unicode_minus'] = False
 
 parser = argparse.ArgumentParser('Script for analyzing the ERF', add_help=False)
 parser.add_argument('--source', default='temp.npy', type=str, help='path to the contribution score matrix (.npy file)')
-parser.add_argument('--heatmap_save', default='heatmap.pdf', type=str, help='where to save the heatmap')
+parser.add_argument('--heatmap_save', default='heatmap.png', type=str, help='where to save the heatmap')
 args = parser.parse_args()
 
 import numpy as np
