@@ -223,6 +223,8 @@ To visualize your own model, first define a model that outputs the last feature 
 python erf/visualize_erf.py --model your_model --weights /path/to/your/weights --data_path /path/to/imagenet-1k --save_path your_model_erf_matrix.npy
 ```
 
+To reproduced the results in the paper, please download the RepLKNet-13 ([Google Drive](https://drive.google.com/file/d/15gohkZof_Qi4__jluUXacB_0Gvbuf5GI/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1a3ntckjrGRM4URMDDSP3Yw?pwd=lknt)) and RepLKNet-31 ([Google Drive](https://drive.google.com/file/d/1aQQiGfCoiBYSw2Ms506-ZFpnC9V6891s/view?usp=sharing), [Baidu](https://pan.baidu.com/s/1fqp57qWZ2Z5Y-Zr4rCO7jQ?pwd=lknt)) models trained in 120 epochs.
+
 ## How to obtain the shape bias
 
 1. Install https://github.com/bethgelab/model-vs-human
