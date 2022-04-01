@@ -8,7 +8,7 @@ The paper is now released on arXiv: https://arxiv.org/abs/2203.06717.
 
 Update: **all the pretrained models, ImageNet-1K models, and Cityscapes/ADE20K/COCO models have been released**. 
 
-Update: **released a script to visualize the ERF. To get the ERF of your own model, you only need to add a few lines of code!**
+Update: **released a script to visualize the Effective Receptive Field (ERF). To get the ERF of your own model, you only need to add a few lines of code!**
 
 Update: **released the training commands and more examples**. 
 
@@ -167,11 +167,11 @@ We use MMSegmentation and MMDetection frameworks. Just clone MMSegmentation or M
   ```
   python -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_1Kpretrain_upernet_80k_cityscapes_769.py RepLKNet-31B_ImageNet-1K_UperNet_Cityscapes.pth --launcher pytorch --eval mIoU
   ```
-  or RepLKNet-31B + Cascade Mask R-CNN on COCO:
+  or RepLKNet-31B + Cascade Mask R-CNN on COCO
   ```
   python -m torch.distributed.launch --nproc_per_node=8 tools/test.py configs/replknet/RepLKNet-31B_22Kpretrain_cascade_mask_rcnn_3x_coco.py RepLKNet-31B_ImageNet-22K_CascMaskRCNN_COCO.pth --eval bbox --launcher pytorch
   ```
-5. Or you may finetune our released pretrained weights. For example,
+5. Or you may finetune our released pretrained weights (see the tips below about the batch size and number of iterations)
   ```
   python -m torch.distributed.launch --nproc_per_node=8 tools/train.py configs/replknet/some_config.py --launcher pytorch --options model.backbone.pretrained=some_pretrained_weights.pth
   ```
@@ -200,9 +200,9 @@ Cascade Mask R-CNN on COCO (FLOPs is computed with 1280x800):
 
 ## Tips on the pretraining or finetuning
 
-1. The mean/std values on MegData73M are different from ImageNet. So we used ```mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5]``` for pretraining on MegData73M and finetuning on ImageNet-1K. Accordingly, we should let ```img_norm_cfg = dict(mean=[127.5, 127.5, 127.5], std=[127.5, 127.5, 127.5], to_rgb=True)``` in MMSegmentation and MMDetection. Please check [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/segmentation/configs/RepLKNet-XL_MegData73M_upernet_160k_ade20k_640.py#L31) and [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/detection/configs/RepLKNet-XL_MegData73Mpretrain_cascade_mask_rcnn_3x_coco.py#L22). For other models, we use the default ImageNet mean/std.
-2. For RepLKNet-XL on ADE20K and COCO, we batch-normalize the intermediate feature maps before feeding them into the heads. Just use ```RepLKNet(..., norm_intermediate_features=True)```. For other models, there is no need to do so.
-3. For RepLKNet-31B/L on Cityscapes and ADE20K, we used 4 or 8 2080Ti nodes each with 8 GPUs, the batch size per GPU was smaller than the default (the default is 4 per GPU, see [here](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/_base_/datasets/ade20k.py#L35)), but the global batch size was larger. Accordingly, we reduced the number of iterations to ensure the same total training examples. Please check the comments in the config files. If you wish to train with our config files, please set the batch size and number of iterations according to your own situation.
+1. The mean/std values on MegData73M are different from ImageNet. So we used ```mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5]``` for pretraining RepLKNet-XL on MegData73M and finetuning on ImageNet-1K. Accordingly, we should let ```img_norm_cfg = dict(mean=[127.5, 127.5, 127.5], std=[127.5, 127.5, 127.5], to_rgb=True)``` in MMSegmentation and MMDetection. Please check [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/segmentation/configs/RepLKNet-XL_MegData73M_upernet_160k_ade20k_640.py#L31) and [here](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/detection/configs/RepLKNet-XL_MegData73Mpretrain_cascade_mask_rcnn_3x_coco.py#L22). For other models, we use the default ImageNet mean/std.
+2. For RepLKNet-XL on ADE20K and COCO, we batch-normalize the intermediate feature maps before feeding them into the heads. Just use ```RepLKNet(..., norm_intermediate_features=True)```. We did not try such design on the other models, so we are not sure if it is significant. 
+3. For RepLKNet-31B/L on Cityscapes and ADE20K, we used 4 or 8 2080Ti nodes each with 8 GPUs, the batch size per GPU was smaller than the default (the default is 4 per GPU, see [here](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/_base_/datasets/ade20k.py#L35)), but the global batch size was larger. Accordingly, we reduced the number of iterations to ensure the same total training samples. Please check the comments in the config files. If you wish to train with our config files, please set the batch size and number of iterations according to your own situation.
 4. Lowering the learning rate for lower-level layers may improve the performance when finetuning on ImageNet-1K or downstream tasks, just like ConvNeXt and BeiT. We are not sure if the improvements would be significant. For ImageNet, [our implementation](https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/optim_factory.py#L34) simply follows ConvNeXt and BeiT. For MMSegmentation and MMDetection, please raise an issue if you need a showcase, 
 5. Tips on the drop_path_rate: bigger model, higher drop_path; bigger pretraining data, lower drop_path.
 
