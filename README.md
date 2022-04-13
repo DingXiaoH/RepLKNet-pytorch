@@ -36,6 +36,8 @@ More re-implementations are welcomed.
 
 We have released an example for **PyTorch**. Please check ```setup.py``` and ```depthwise_conv2d_implicit_gemm.py``` (**a replacement of torch.nn.Conv2d**) in https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension.
 
+It should work with a wide range of GPUs and PyTorch/CUDA versions. Our latest test used CUDA 11.3.1, cudnn 8.2.0, PyTorch 1.10.0 with A100 GPUs.
+
 1. Clone ```cutlass``` (https://github.com/MegEngine/cutlass), enter the directory.
 2. ```cd examples/19_large_depthwise_conv2d_torch_extension```
 3. ```./setup.py install --user```. If you get errors, check your ```CUDA_HOME```.
