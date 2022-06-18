@@ -209,7 +209,8 @@ class RepLKNet(nn.Module):
                  use_checkpoint=False,
                  small_kernel_merged=False,
                  use_sync_bn=True,
-                 norm_intermediate_features=False       # for RepLKNet-XL on COCO and ADE20K, use an extra BN to normalize the intermediate feature maps then feed them into the heads
+                 norm_intermediate_features=False,      # for RepLKNet-XL on COCO and ADE20K, use an extra BN to normalize the intermediate feature maps then feed them into the heads
+                 pretrained=None
                  ):
         super().__init__()
 
@@ -254,6 +255,15 @@ class RepLKNet(nn.Module):
             self.norm = get_bn(channels[-1])
             self.avgpool = nn.AdaptiveAvgPool2d(1)
             self.head = nn.Linear(channels[-1], num_classes)
+
+        if pretrained:
+            print('============= load pretrained backbone from ', pretrained)
+            weights = torch.load(pretrained, map_location='cpu')
+            if 'model' in weights:
+                weights = weights['model']
+            if 'state_dict' in weights:
+                weights = weights['state_dict']
+            self.load_state_dict(weights, strict=False)
 
 
 
