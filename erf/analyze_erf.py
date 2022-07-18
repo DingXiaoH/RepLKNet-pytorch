@@ -57,7 +57,7 @@ def get_rectangle(data, thresh):
         selected_area = data[h // 2 - i:h // 2 + 1 + i, w // 2 - i:w // 2 + 1 + i]
         area_sum = np.sum(selected_area)
         if area_sum / all_sum > thresh:
-            return i * 2 + 1, ((i * 2 + 1) / 1024) ** 2
+            return i * 2 + 1, (i * 2 + 1) / h * (i * 2 + 1) / w
     return None
 
 
