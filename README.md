@@ -36,7 +36,7 @@ More re-implementations are welcomed.
 
 We have released an example for **PyTorch**. Please check ```setup.py``` and ```depthwise_conv2d_implicit_gemm.py``` (**a replacement of torch.nn.Conv2d**) in https://github.com/MegEngine/cutlass/tree/master/examples/19_large_depthwise_conv2d_torch_extension.
 
-It should work with a wide range of GPUs and PyTorch/CUDA versions. Our latest tests used both 1) CUDA 11.3.1 + cudnn 8.2.0 + PyTorch 1.10.0 + A100 GPUs and 2) CUDA 10.2 + cudnn 7.5.0 + PyTorch 1.9.0 + 2080Ti GPUs.
+It should work with a wide range of GPUs and PyTorch/CUDA versions.
 
 1. Clone ```cutlass``` (https://github.com/MegEngine/cutlass), enter the directory.
 2. ```cd examples/19_large_depthwise_conv2d_torch_extension```
@@ -44,6 +44,11 @@ It should work with a wide range of GPUs and PyTorch/CUDA versions. Our latest t
 4. A quick check: ```python depthwise_conv2d_implicit_gemm.py```
 5. Add ```WHERE_YOU_CLONED_CUTLASS/examples/19_large_depthwise_conv2d_torch_extension``` into your ```PYTHONPATH``` so that you can ```from depthwise_conv2d_implicit_gemm import DepthWiseConv2dImplicitGEMM``` anywhere. Then you may use ```DepthWiseConv2dImplicitGEMM``` as a replacement of ```nn.Conv2d```.
 6. ```export LARGE_KERNEL_CONV_IMPL=WHERE_YOU_CLONED_CUTLASS/examples/19_large_depthwise_conv2d_torch_extension``` so that RepLKNet will use the efficient implementation. Or you may simply modify the related code (```get_conv2d```) in ```replknet.py```.
+
+Our testes used
+
+1. Ubuntu 18.04 + CUDA 11.3 + nvcc 11.3 + cudnn 8.2.0 + python 3.8.12 + pytorch 1.10 + gcc 7.3.0 + nccl 2.10.3 + NVIDIA driver 450.102.04 + V100 and A100 GPUs
+2. Ubuntu 18.04 + CUDA 10.2 + nvcc 10.0 + cudnn 7.6.5 + python 3.6.9 + pytorch 1.9 + gcc 7.5.0 + nccl 2.7.8 + NVIDIA driver 460.32.03 + 2080Ti and V100 GPUs
 
 Our implementation mentioned in the paper has been integrated into MegEngine. The engine will automatically use it. If you would like to use it in other frameworks like Tensorflow, you may need to compile our released cuda sources (the ```*.cu``` files in the above example should work with other frameworks) and use some tools to load them, just like ```cutlass``` and ```torch.utils.cpp_extension``` in the PyTorch example. Would be appreciated if you could share with us your experience.
 
