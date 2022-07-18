@@ -254,7 +254,7 @@ The released PyTorch training script is based on the code of [ConvNeXt](https://
 This project is released under the MIT license. Please see the [LICENSE](LICENSE) file for more information.
 
 ## Contact
-dxh17@mails.tsinghua.edu.cn
+xiaohding@gmail.com
 
 Google Scholar Profile: https://scholar.google.com/citations?user=CIjw0KoAAAAJ&hl=en
 
