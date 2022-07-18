@@ -28,6 +28,7 @@ If you find the paper or this repository helpful, please consider citing
 |MegEngine (official)|https://github.com/megvii-research/RepLKNet|
 |PyTorch (official)|https://github.com/DingXiaoH/RepLKNet-pytorch|
 |Tensorflow|https://github.com/shkarupa-alex/tfreplknet|
+|PaddlePaddle|https://github.com/BR-IDL/PaddleViT/tree/develop/image_classification/RepLKNet|
 | ... | |
 
 More re-implementations are welcomed.
