@@ -14,6 +14,14 @@ from timm.models.layers import DropPath
 import sys
 import os
 
+def convert_tuple_to_int(x):
+    if type(x) is int:
+        return x
+    elif len(x) == 2 and x[0] == x[1]:
+        return x[0]
+    else:
+        return x
+
 def get_conv2d(in_channels, out_channels, kernel_size, stride, padding, dilation, groups, bias):
     if type(kernel_size) is int:
         use_large_impl = kernel_size > 5
@@ -21,6 +29,13 @@ def get_conv2d(in_channels, out_channels, kernel_size, stride, padding, dilation
         assert len(kernel_size) == 2 and kernel_size[0] == kernel_size[1]
         use_large_impl = kernel_size[0] > 5
     has_large_impl = 'LARGE_KERNEL_CONV_IMPL' in os.environ
+
+    # convert tuple to int so that we can use the DepthWiseConv2dImplicitGEMM
+    kernel_size = convert_tuple_to_int(kernel_size)
+    stride = convert_tuple_to_int(stride)
+    padding = convert_tuple_to_int(padding)
+    dilation = convert_tuple_to_int(dilation)
+
     if has_large_impl and in_channels == out_channels and out_channels == groups and use_large_impl and stride == 1 and padding == kernel_size // 2 and dilation == 1:
         sys.path.append(os.environ['LARGE_KERNEL_CONV_IMPL'])
         #   Please follow the instructions https://github.com/DingXiaoH/RepLKNet-pytorch/blob/main/README.md
@@ -118,7 +133,8 @@ class ReparamLargeKernelConv(nn.Module):
         self.lkb_reparam = get_conv2d(in_channels=self.lkb_origin.conv.in_channels,
                                      out_channels=self.lkb_origin.conv.out_channels,
                                      kernel_size=self.lkb_origin.conv.kernel_size, stride=self.lkb_origin.conv.stride,
-                                     padding=self.lkb_origin.conv.padding, dilation=self.lkb_origin.conv.dilation,
+                                     # padding is needed here to make sure the output size is the same as the original large kernel conv
+                                     padding=self.lkb_origin.conv.kernel_size // 2, dilation=self.lkb_origin.conv.dilation,
                                      groups=self.lkb_origin.conv.groups, bias=True)
         self.lkb_reparam.weight.data = eq_k
         self.lkb_reparam.bias.data = eq_b
